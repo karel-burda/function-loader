@@ -1,0 +1,9 @@
+# Base template origin: https://github.com/karel-burda/git-helpers
+# Version: 0.2
+
+# Normalizes all textual files to the LF line endings
+* text=auto eol=lf
+
+# Ignores following files when running "git archive"
+.git* export-ignore
+build/ export-ignore

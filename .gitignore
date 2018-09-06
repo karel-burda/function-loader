@@ -1,0 +1,53 @@
+# Base template origin: https://github.com/karel-burda/git-helpers
+# Version: 0.3
+
+# General
+build
+CMakeFiles
+.DS_Store
+
+# Doxygen
+*.d
+
+# Objects
+*.slo
+*.lo
+*.o
+*.obj
+*.elf
+
+# Precompiled headers
+*.gch
+*.pch
+
+# Shared libraries
+*.so*
+*.dylib
+*.dll
+
+# Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Debug symbols
+*.dSYM
+*.su
+*.idb
+*.pdb
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Java
+*.class
+*.jar
+*.war
