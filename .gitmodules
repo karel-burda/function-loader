@@ -1,4 +1,4 @@
 [submodule "cmake-helpers"]
 	path = cmake-helpers
-	url = https://github.com/karel-burda/cmake-helpers.git
+	url = https://github.com/karel-burda/cmake-helpers
 	branch = master
