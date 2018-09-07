@@ -28,7 +28,10 @@ set(HEADERS
     include/function_extractor/function_extractor.hpp
     include/function_extractor/library_loader.hpp
 
-    include/function_extractor/exceptions.hpp)
+    include/function_extractor/exceptions.hpp
+    
+    include/function_extractor/private/library_loader.base.hpp
+    $<$<PLATFORM_ID:Windows>:include/function_extractor/private/library_loader.windows.hpp>)
 
 # TODO: set platform-specific files
 
