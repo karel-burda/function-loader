@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-project(function-dll-extractor VERSION 0.0.1 LANGUAGES CXX)
+project(function-extractor VERSION 0.0.1 LANGUAGES CXX)
 
 include("cmake-helpers/cmake-helpers/messages.cmake")
 include("cmake-helpers/cmake-helpers/standard-settings.cmake")
@@ -21,11 +21,16 @@ endif()
 
 if (UNIT-TESTS)
     enable_testing()
-    add_subdirectory(tests/unit)
+    #add_subdirectory(tests/unit)
 endif()
 
 set(HEADERS
-    include/function-dll-extractor/library-loader.hpp)
+    include/function_extractor/function_extractor.hpp
+    include/function_extractor/library_loader.hpp
+
+    include/function_extractor/exceptions.hpp)
+
+# TODO: set platform-specific files
 
 set(OTHER
     README.md

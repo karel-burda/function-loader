@@ -1,24 +1,27 @@
 #pragma once
 
+#include <exception>
 #include <functional>
 #include <string>
 
 #include <windows.h>
 
-#include "exceptions/library_loader.hpp"
+#include "exceptions.hpp"
 
 namespace burda
+{
+namespace function_extractor
 {
 class library_loader
 {
 public:
     explicit library_loader(const std::string & library_path)
     {
-        handle = ::LoadLibraryA(library_path.c_str());
+        handle = ::LoadLibraryExA(library_path.c_str(), nullptr, DONT_RESOLVE_DLL_REFERENCES);
 
         if (!handle)
         {
-            throw exceptions::library_load_failed{ handle };
+            throw exceptions::library_load_failed{ library_path };
         }
     }
 
@@ -48,13 +51,13 @@ public:
     {
         std::function<function_type> procedure = nullptr;
 
-        if (libraryHandle != nullptr)
+        if (handle != nullptr)
         {
-            const FARPROC procedure_address = ::GetProcAddress(libraryHandle, procedure_name.c_str());
+            const FARPROC procedure_address = ::GetProcAddress(handle, procedure_name.c_str());
 
             if (procedure_address == nullptr)
             {
-                throw exceptions::library_loader::procedure_not_exists{ procedure_name };
+                throw exceptions::function_does_not_exist{ procedure_name };
             }
             else
             {
