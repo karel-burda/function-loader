@@ -38,6 +38,9 @@ set(HEADERS
 
 set(OTHER
     README.md
-    .travis.yml)
+    .travis.yml
+    ${PROJECT_NAME}-config.cmake.in)
 
 add_custom_target(${PROJECT_NAME} SOURCES ${HEADERS} ${OTHER})
+
+configure_file(${PROJECT_NAME}-config.cmake.in "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake" @ONLY)

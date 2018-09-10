@@ -7,8 +7,10 @@ _print_project_version()
 
 add_executable(${PROJECT_NAME} src/main.cpp src/main.cpp.in)
 
-# TODO: use find package instead
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
+# TODO: use find package instead with include paths and -ldl on unixes
+find_package(function-extractor REQUIRED CONFIG PATHS ${CMAKE_BINARY_DIR} NO_DEFAULT_PATH)
+target_include_directories(${PROJECT_NAME} PUBLIC ${function-extractor_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${function-extractor_LIBRARIES})
 
 _add_pedantic_warning_level(${PROJECT_NAME})
 
