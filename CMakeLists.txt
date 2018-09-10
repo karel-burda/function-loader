@@ -6,23 +6,15 @@ include("cmake-helpers/cmake-helpers/messages.cmake")
 include("cmake-helpers/cmake-helpers/standard-settings.cmake")
 include("cmake-helpers/cmake-helpers/warnings.cmake")
 
+option(EXAMPLE "Build example usage" ON)
+option(UNIT-TESTS "Build unit tests" OFF)
+
 _print_project_version()
 
 _set_standards("11" "14")
 _set_default_build_type("Debug")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-option(EXAMPLE "Build example usage" ON)
-option(UNIT-TESTS "Build unit tests" OFF)
-if (EXAMPLE)
-    add_subdirectory(example)
-endif()
-
-if (UNIT-TESTS)
-    enable_testing()
-    #add_subdirectory(tests/unit)
-endif()
 
 set(HEADERS
     include/function_extractor/function_extractor.hpp
@@ -44,3 +36,12 @@ set(OTHER
 add_custom_target(${PROJECT_NAME} SOURCES ${HEADERS} ${OTHER})
 
 configure_file(${PROJECT_NAME}-config.cmake.in "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake" @ONLY)
+
+if (EXAMPLE)
+    add_subdirectory(example)
+endif()
+
+if (UNIT-TESTS)
+    enable_testing()
+    #add_subdirectory(tests/unit)
+endif()
