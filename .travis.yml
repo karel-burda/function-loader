@@ -1,13 +1,5 @@
 stages:
-  - example (C++11) -- build (linux, clang5), valgrind
   - example (C++14) -- cppcheck, build (linux, gcc5), valgrind
-  - tests (C++14) -- cppcheck, build (osx, clang8), run, coverage
-
-env:
-  global:
-    - CMAKE_ARGS_GENERATE_EXAMPLE="-Bbuild -H. -DEXAMPLE:BOOL=ON -DUNIT-TESTS:BOOL=OFF -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo"
-    - CMAKE_ARGS_BUILD_EXAMPLE="--build ./build --target example --config RelWithDebInfo"
-    - VALGRIND_ARGS="--leak-check=full --error-exitcode=255 -v ./build/bin/example"
 
 notifications:
   email:
@@ -18,23 +10,6 @@ notifications:
 
 jobs:
   include:
-     - stage: example (C++11) -- build (linux, clang5), valgrind
-       sudo: required
-       dist: trusty
-       language: cpp
-       compiler: clang
-       os: linux
-       addons:
-         apt:
-           packages: 
-             - valgrind
-       script:
-         - set -e
-         - cmake $CMAKE_ARGS_GENERATE_EXAMPLE
-         - cmake $CMAKE_ARGS_BUILD_EXAMPLE
-         - valgrind $VALGRIND_ARGS
-         - set +e
-
      - stage: example (C++14) -- cppcheck, build (linux, gcc5), valgrind
        sudo: required
        dist: trusty
@@ -52,33 +27,9 @@ jobs:
        install: export CXX="g++-5"
        script:
          - set -e
-         - cppcheck --enable=all -I include --check-config  -v ./example
-         - cmake $CMAKE_ARGS_GENERATE_EXAMPLE
-         - cmake $CMAKE_ARGS_BUILD_EXAMPLE
-         - valgrind $VALGRIND_ARGS
-         - set +e
 
-     - stage: tests (C++14) -- cppcheck, build (osx, clang8), run, coverage
-       language: cpp
-       compiler: clang
-       os: osx
-       before_install:
-         - set -e
-         - brew update
-         - brew install cppcheck lcov
-         # hacks because of the "cpp-coveralls" for osx :(
-         - brew upgrade pyenv
-         - eval "$(pyenv init -)"
-         - pyenv install 2.7.6
-         - pyenv global 2.7.6
-         - pyenv rehash
-         - pip install cpp-coveralls
-         - pyenv rehash
-         - set +e
-       script:
-         - set -e
-         - cppcheck --enable=all -I include -I tests/unit/include/ --check-config -v ./tests/unit/
-         - cmake -Bbuild -H. -DEXAMPLE:BOOL=OFF -DUNIT-TESTS:BOOL=ON -DCOVERAGE:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
-         - cmake --build ./build --target run-all-tests-verbose --config RelWithDebInfo
-         - coveralls -e ./build/gtest-src -e ./build/CMakeFiles -e ./tests/unit -e ./example --gcov-options '\-lp'
+         - cppcheck --enable=all -I include --check-config  -v ./example
+         - cmake -Bbuild -H. -DEXAMPLE:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+         - cmake --build build --target example --config RelWithDebInfo
+
          - set +e

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-project(function-extractor VERSION 0.0.1 LANGUAGES CXX)
+project(function-extractor VERSION 0.1.0 LANGUAGES CXX)
 
 include("cmake-helpers/cmake-helpers/messages.cmake")
 include("cmake-helpers/cmake-helpers/standard-settings.cmake")
@@ -29,11 +29,12 @@ set(HEADERS
     include/function_extractor/library_loader.hpp
 
     include/function_extractor/exceptions.hpp
-    
-    include/function_extractor/private/library_loader.base.hpp
-    $<$<PLATFORM_ID:Windows>:include/function_extractor/private/library_loader.windows.hpp>)
 
-# TODO: set platform-specific files
+    include/function_extractor/private/library_loader_interface.hpp
+    include/function_extractor/private/library_loader_impl.hpp
+
+    $<$<PLATFORM_ID:Windows>:include/function_extractor/private/library_loader_impl_windows.hpp>
+    $<$<PLATFORM_ID:Unix>:include/function_extractor/private/library_loader_impl_posix.hpp>)
 
 set(OTHER
     README.md
