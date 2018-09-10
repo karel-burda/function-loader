@@ -17,15 +17,15 @@ int main()
 
     try
     {
-        function_extractor::library_loader library{ @DEMO_LIBRARY_PATH@ };
+        function_extractor::library_loader library{ "@DEMO_LIBRARY_PATH@" };
 
         // get procedures at runtime from the shared library
-        const auto func_void_no_params = library.get_procedure<void()>("foo");
-        const auto func_void_int_param = library.get_procedure<void(int)>("bar");
+        //const auto func_void_no_params = library.get_procedure<void()>("foo");
+        //const auto func_void_int_param = library.get_procedure<void(int)>("bar");
 
         // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
-        func_void_no_params();
-        func_void_int_param(99);
+        //func_void_no_params();
+        //func_void_int_param(99);
     }
     catch (const function_extractor::exceptions::library_load_failed & error)
     {
