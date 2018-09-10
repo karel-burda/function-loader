@@ -13,6 +13,11 @@ public:
     library_loader(const std::string & path)
     {
         load_library(path);
+
+        if (handle == nullptr)
+        {
+            throw exceptions::library_load_failed{ path };
+        }
     }
 
     ~library_loader()

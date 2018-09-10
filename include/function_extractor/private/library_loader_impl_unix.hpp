@@ -21,7 +21,6 @@ protected:
         dlclose(handle);
     }
 
-private:
     void * handle = nullptr;
 };
 }

@@ -21,7 +21,6 @@ protected:
         FreeLibrary(handle);
     }
 
-private:
     HMODULE handle = nullptr;
 };
 }
