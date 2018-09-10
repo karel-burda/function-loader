@@ -28,8 +28,8 @@ jobs:
        script:
          - set -e
 
-         - ls -la && cppcheck --enable=all -I include --check-config  -v ./example
          - cmake -Bbuild -H. -DEXAMPLE:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+         - cppcheck --enable=all -I include --check-config  -v ./example
          - cmake --build build --target example --config RelWithDebInfo
 
          - set +e
