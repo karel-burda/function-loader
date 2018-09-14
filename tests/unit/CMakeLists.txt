@@ -10,7 +10,7 @@ include("${CMAKE_SOURCE_DIR}/cmake-helpers/cmake-helpers/threads.cmake")
 
 _gtest_download_and_build("gtest-build" "Release" "gtest-src" "0957cce368316577aae5ddfffcb67f24621d69e7")
 
-add_executable(${PROJECT_NAME})
+add_executable(${PROJECT_NAME} "")
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_sources(
