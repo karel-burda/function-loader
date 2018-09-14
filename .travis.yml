@@ -1,5 +1,5 @@
 stages:
-  - example (C++14) -- cppcheck, build (linux, gcc5), valgrind
+  - example and tests (C++14) -- cppcheck, build (linux, gcc5), valgrind, tests
 
 notifications:
   email:
@@ -10,7 +10,7 @@ notifications:
 
 jobs:
   include:
-     - stage: example (C++14) -- cppcheck, build (linux, gcc5), valgrind
+     - stage: example and tests (C++14) -- cppcheck, build (linux, gcc5), valgrind, tests
        sudo: required
        dist: trusty
        language: cpp
@@ -29,7 +29,8 @@ jobs:
          - set -e
 
          - cmake -Bbuild -H. -DEXAMPLE:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
-         - cppcheck --enable=all -I include --check-config  -v ./example
+         - cppcheck --enable=all -I include --check-config  -v ./example ./tests
          - cmake --build build --target example --config RelWithDebInfo
+         - cmake --build build --target run-all-tests-verbose --config RelWithDebInfo
 
          - set +e
