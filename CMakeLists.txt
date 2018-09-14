@@ -42,6 +42,8 @@ if (EXAMPLE)
 endif()
 
 if (UNIT-TESTS)
+    add_subdirectory(test-utils)
+
     enable_testing()
-    #add_subdirectory(tests/unit)
+    add_subdirectory(tests/unit)
 endif()
