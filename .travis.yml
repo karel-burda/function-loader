@@ -29,8 +29,12 @@ jobs:
          - set -e
 
          - cmake -Bbuild -H. -DEXAMPLE:BOOL=ON -DUNIT-TESTS:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+
          - cppcheck --enable=all -I include --check-config  -v ./example ./tests
+
          - cmake --build build --target example --config RelWithDebInfo
+         - valgrind leak-check=full --error-exitcode=255 -v ./build/bin/example
+
          - cmake --build build --target run-all-tests-verbose --config RelWithDebInfo
 
          - set +e
