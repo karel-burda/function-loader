@@ -21,6 +21,11 @@ protected:
         dlclose(handle);
     }
 
+    char * get_last_error()
+    {
+        return dlerror();
+    }
+
     void * handle = nullptr;
 };
 }

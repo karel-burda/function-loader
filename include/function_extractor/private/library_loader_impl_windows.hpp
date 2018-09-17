@@ -21,7 +21,17 @@ protected:
         FreeLibrary(handle);
     }
 
+    const char * get_last_error()
+    {
+        last_error = std::to_string(GetLastError());
+
+        return last_error.c_str();
+    }
+
     HMODULE handle = nullptr;
+
+private:
+    std::string last_error;
 };
 }
 }
