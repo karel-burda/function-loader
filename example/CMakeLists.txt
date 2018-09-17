@@ -9,8 +9,7 @@ add_executable(${PROJECT_NAME} "")
 
 target_sources(${PROJECT_NAME}
                 PUBLIC
-                    src/main.cpp
-                    src/main.cpp.in)
+                    src/main.cpp)
 
 find_package(function-extractor REQUIRED CONFIG PATHS ${CMAKE_BINARY_DIR} NO_DEFAULT_PATH)
 target_include_directories(${PROJECT_NAME} PUBLIC ${function-extractor_INCLUDE_DIRS})
@@ -28,16 +27,13 @@ FILE(COPY
     ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 target_sources(demo-library
-                PUBLIC
-                    src/demo-library.hpp
-                    src/demo-library.cpp
-                    src/export.hpp)
+                   PUBLIC
+                       src/demo-library.hpp
+                       src/demo-library.cpp
+                       src/export.hpp)
+set_target_properties(demo-library
+                          PROPERTIES
+                              PREFIX ""
+                              SUFFIX "")
 
 add_dependencies(${PROJECT_NAME} demo-library)
-
-if (WIN32)
-    set(DEMO_LIBRARY_PATH "demo-library.dll")
-else()
-    set(DEMO_LIBRARY_PATH "demo-library.so")
-endif()
-configure_file(src/main.cpp.in ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp @ONLY)
