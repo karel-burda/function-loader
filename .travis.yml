@@ -33,6 +33,7 @@ jobs:
          - cppcheck --enable=all -I include --check-config  -v ./example ./tests
 
          - cmake --build build --target example --config RelWithDebInfo
+         - ls -la ./build/bin && ldd -v ./build/bin/demo-library
          - valgrind --leak-check=full --error-exitcode=255 -v ./build/bin/example
 
          - cmake --build build --target run-all-tests-verbose --config RelWithDebInfo
