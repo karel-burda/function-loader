@@ -4,7 +4,7 @@
 #include <function_extractor/exceptions.hpp>
 #include <function_extractor/library_loader.hpp>
 
-static int print_error(const std::exception & error)
+static int print_error_and_exit(const std::exception & error)
 {
     std::cerr << error.what() << std::endl;
 
@@ -17,7 +17,7 @@ int main()
 
     try
     {
-        function_extractor::library_loader library{ "demo-library" };
+        function_extractor::library_loader library{ "demo-library3" };
 
         // get procedures at runtime from the shared library
         //const auto func_void_no_params = library.get_procedure<void()>("foo");
@@ -29,11 +29,11 @@ int main()
     }
     catch (const function_extractor::exceptions::library_load_failed & error)
     {
-        return print_error(error);
+        return print_error_and_exit(error);
     }
     catch (const function_extractor::exceptions::function_does_not_exist & error)
     {
-        return print_error(error);
+        return print_error_and_exit(error);
     }
 
     // library object will go out of scope, thus it's going to free all resources and unloads the library handle
