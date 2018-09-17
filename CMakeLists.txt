@@ -22,7 +22,6 @@ set(HEADERS
 
     include/function_extractor/exceptions.hpp
 
-    include/function_extractor/private/library_loader_interface.hpp
     include/function_extractor/private/library_loader_impl.hpp
 
     $<$<PLATFORM_ID:Windows>:include/function_extractor/private/library_loader_impl_windows.hpp>

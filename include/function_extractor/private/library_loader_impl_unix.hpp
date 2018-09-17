@@ -1,22 +1,22 @@
 #pragma once
 
-#include <dlfcn.h>
+#include <string>
 
-#include "function_extractor/private/library_loader_interface.hpp"
+#include <dlfcn.h>
 
 namespace burda
 {
 namespace function_extractor
 {
-class library_loader_implementation : public library_loader_interface
+class library_loader_implementation
 {
 protected:
-    void load_library(const std::string & path) override
+    void load_library(const std::string & path)
     {
         handle = dlopen(path.c_str(), 0);
     }
 
-    void unload_library() override
+    void unload_library()
     {
         dlclose(handle);
     }

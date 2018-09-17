@@ -1,22 +1,22 @@
 #pragma once
 
-#include <windows.h>
+#include <string>
 
-#include "function_extractor/private/library_loader_interface.hpp"
+#include <windows.h>
 
 namespace burda
 {
 namespace function_extractor
 {
-class library_loader_implementation : public library_loader_interface
+class library_loader_implementation
 {
 protected:
-    void load_library(const std::string & path) override
+    void load_library(const std::string & path)
     {
         handle = LoadLibraryExA(path.c_str(), nullptr, 0);
     }
 
-    void unload_library() override
+    void unload_library()
     {
         FreeLibrary(handle);
     }
