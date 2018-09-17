@@ -14,7 +14,8 @@ _print_project_version()
 _set_standards("11" "14")
 _set_default_build_type("Debug")
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 set(HEADERS
     include/function_extractor/function_extractor.hpp
