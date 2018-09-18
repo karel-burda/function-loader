@@ -25,7 +25,10 @@ target_sources(${PROJECT_NAME}
                        src/demo-library.cpp
                        src/export.hpp)
 
+# Unfortunately, we cannot use SUFFIX as empty string property on MSVC, because the LoadLibrary method from WinAPI
+# checks whether the file name has some suffix at all. Now using the same "dll" suffix only in Unixes
 set_target_properties(${PROJECT_NAME}
                           PROPERTIES
                               PREFIX ""
-                              SUFFIX "")
+                              SUFFIX ".dll")
+

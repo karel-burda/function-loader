@@ -18,8 +18,8 @@ TEST(library_loader_construction_destruction, static_assertions)
 
 TEST(library_loader_construction_destruction, basic)
 {
-    test_utils::assert_construction_and_destruction<function_extractor::library_loader>("./demo-library");
+    test_utils::assert_construction_and_destruction<function_extractor::library_loader>("./demo-library.dll");
     EXPECT_THROW(function_extractor::library_loader{ "foo" }, function_extractor::exceptions::library_load_failed);
-    EXPECT_NO_THROW(function_extractor::library_loader{ "./demo-library" });
+    EXPECT_NO_THROW(function_extractor::library_loader{ "./demo-library.dll" });
 }
 }
