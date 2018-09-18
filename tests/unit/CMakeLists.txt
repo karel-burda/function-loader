@@ -49,6 +49,8 @@ if (COVERAGE)
     endif()
 endif()
 
+enable_testing()
+
 add_test(NAME all-unit-tests
          COMMAND $<TARGET_FILE:${PROJECT_NAME}> --gtest_color=yes --gtest_shuffle)
 
