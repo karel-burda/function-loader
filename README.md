@@ -17,7 +17,7 @@ Implemented using C++11 for Windows and POSIX systems.
 These exceptions might be thrown:
 * ``
 
-See [exceptions.h](include/function_extractor/exceptions.h) for more info.
+See [exceptions.hpp](include/function_extractor/exceptions.hpp) for more info.
 
 # Usage
 In order to use the `function_extractor`, it's the `include` directory that matters. Just make sure that the header search path is pointing to the [include](include) directory located in the root directory.
@@ -26,8 +26,6 @@ On POSIXes, the `libdl` has to be linked to the final executable.
 Tou can use the provided package config at [function-extractor-config.cmake.in](function-extractor-config.cmake.in).
 
 Implementation resides in the `burda::function_extractor` namespace, so it might be useful to do `namespace fe = burda::function_extractor;` in your project.
-
-See also section [Requirements](#Requirements).
 
 ### Example
 ```cpp
