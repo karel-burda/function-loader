@@ -16,7 +16,7 @@ public:
 
         if (handle == nullptr)
         {
-            throw exceptions::library_load_failed{ path };
+            throw exceptions::library_load_failed{ path  + ", reason: " + get_last_error() };
         }
     }
 

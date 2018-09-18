@@ -11,14 +11,14 @@ namespace example
 {
 void function_with_no_params()
 {
-    std::cout << "Executing 'function_with_no_params'" << std::endl;
+    std::clog << "Executing 'function_with_no_params'" << std::endl;
 }
 
 int function_with_return_value_and_params(float number, const char * str)
 {
-    std::cout << "Executing 'function_with_return_value_and_params'" << std::endl;
+    std::clog << "Executing 'function_with_return_value_and_params'" << std::endl;
 
-    std::cout << "number=" << std::to_string(number) << ", str=" << (str ? str : "(nullptr)") << std::endl;
+    std::clog << "number=" << std::to_string(number) << ", str=" << (str ? str : "(nullptr)") << std::endl;
 
     return 999;
 }
