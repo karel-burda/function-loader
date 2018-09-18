@@ -16,7 +16,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC include)
 target_sources(
     ${PROJECT_NAME}
         PUBLIC
-            src/exceptions_test.cpp)
+            src/exceptions_test.cpp
+            src/library_loader_test.cpp)
 
 add_dependencies(${PROJECT_NAME} gtest-build)
 

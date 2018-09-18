@@ -12,5 +12,6 @@ namespace test_utils = burda::test_utils;
 TEST(exceptions_construction_destruction, static_assertions)
 {
     test_utils::assert_default_constructibility<function_extractor::exceptions::function_does_not_exist, false>();
+    test_utils::assert_default_constructibility<function_extractor::exceptions::library_load_failed, false>();
 }
 }
