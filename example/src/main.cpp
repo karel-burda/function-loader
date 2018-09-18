@@ -17,7 +17,7 @@ int main()
 
     try
     {
-        function_extractor::library_loader library{ "demo-library" };
+        function_extractor::library_loader library{ "./demo-library" };
 
         // get procedures at runtime from the shared library
         //const auto func_void_no_params = library.get_procedure<void()>("foo");
