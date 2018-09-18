@@ -17,23 +17,4 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${function-extractor_LIBRARIES})
 
 _add_pedantic_warning_level(${PROJECT_NAME})
 
-include(GenerateExportHeader)
-set(CMAKE_CXX_VISIBILITY_PRESET default)
-add_library(demo-library SHARED)
-generate_export_header(demo-library EXPORT_FILE_NAME "export.hpp")
-FILE(COPY 
-    ${CMAKE_CURRENT_BINARY_DIR}/export.hpp
-    DESTINATION 
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-)
-target_sources(demo-library
-                   PUBLIC
-                       src/demo-library.hpp
-                       src/demo-library.cpp
-                       src/export.hpp)
-set_target_properties(demo-library
-                          PROPERTIES
-                              PREFIX ""
-                              SUFFIX "")
-
 add_dependencies(${PROJECT_NAME} demo-library)

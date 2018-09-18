@@ -37,13 +37,16 @@ add_custom_target(${PROJECT_NAME} SOURCES ${HEADERS} ${OTHER})
 
 configure_file(${PROJECT_NAME}-config.cmake.in "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake" @ONLY)
 
-if (EXAMPLE)
-    add_subdirectory(example)
-endif()
+if (EXAMPLE OR UNIT-TESTS)
+    add_subdirectory(demo-library)
 
-if (UNIT-TESTS)
-    add_subdirectory(test-utils)
+    if (EXAMPLE)
+        add_subdirectory(example)
+    endif()
+    
+    if (UNIT-TESTS)
+        add_subdirectory(test-utils)
 
-    enable_testing()
-    add_subdirectory(tests/unit)
+        add_subdirectory(tests/unit)
+    endif()
 endif()
