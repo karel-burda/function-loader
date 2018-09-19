@@ -10,7 +10,7 @@ namespace function_extractor
 class library_loader : public library_loader_implementation
 {
 public:
-    library_loader(const std::string & path)
+    explicit library_loader(const std::string & path)
     {
         load_library(path);
 
