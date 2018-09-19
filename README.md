@@ -1,4 +1,5 @@
 ![Version](https://img.shields.io/badge/version-0.1.1-green.svg)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/597386b6741746e9a2e3853a2928d461)](https://app.codacy.com/app/karel-burda/function-extractor?utm_source=github.com&utm_medium=referral&utm_content=karel-burda/function-extractor&utm_campaign=Badge_Grade_Dashboard)
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/karel-burda/function-extractor.svg?branch=develop)](https://travis-ci.org/karel-burda/function-extractor)
 
