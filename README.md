@@ -32,6 +32,14 @@ Implementation resides in the `burda::function_extractor` namespace, so it might
 ```cpp
 // TODO
 ```
+Where this is the header of the `demo-library.(so|dll)`:
+```cpp
+extern "C"
+{
+
+}
+```
+
 For full use cases, see [main.cpp](example/src/main.cpp) or implementation of unit tests at [tests/unit](tests/unit).
 
 # Build Process

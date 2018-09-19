@@ -12,6 +12,12 @@ namespace detail
 {
 class library_loader_implementation
 {
+public:
+    HMODULE get_handle() const
+    {
+        return handle;
+    }
+
 protected:
     void load_library(const std::string & path)
     {
