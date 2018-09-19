@@ -30,7 +30,7 @@ jobs:
 
          - cmake -Bbuild -H. -DEXAMPLE:BOOL=ON -DUNIT-TESTS:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
 
-         - cppcheck --enable=all -I include --check-config  -v ./example ./tests
+         - cppcheck --enable=all -I include -I test-utils --check-config  -v ./example ./tests
 
          - cmake --build build --target example --config RelWithDebInfo
 
