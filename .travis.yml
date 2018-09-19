@@ -1,13 +1,6 @@
 stages:
   - example and tests (C++14) -- cppcheck, build (linux, gcc5), valgrind, tests
 
-notifications:
-  email:
-    on_success: never
-    on_failure: always
-    recipients:
-      - karelburda89@gmail.com
-
 jobs:
   include:
      - stage: example and tests (C++14) -- cppcheck, build (linux, gcc5), valgrind, tests
@@ -30,7 +23,7 @@ jobs:
 
          - cmake -Bbuild -H. -DEXAMPLE:BOOL=ON -DUNIT-TESTS:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
 
-         - cppcheck --enable=all -I include -I test-utils --check-config  -v ./example ./tests
+         - cppcheck --enable=all -I include -I test-utils/include --check-config  -v ./example ./tests
 
          - cmake --build build --target example --config RelWithDebInfo
 
