@@ -1,13 +1,13 @@
 #pragma once
 
 #include "function_extractor/exceptions.hpp"
-#include "function_extractor/private/library_loader_impl.hpp"
+#include "function_extractor/detail/library_loader_impl.hpp"
 
 namespace burda
 {
 namespace function_extractor
 {
-class library_loader : public library_loader_implementation
+class library_loader : public detail::library_loader_implementation
 {
 public:
     explicit library_loader(const std::string & path)

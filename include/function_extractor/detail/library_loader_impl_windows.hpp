@@ -8,6 +8,8 @@ namespace burda
 {
 namespace function_extractor
 {
+namespace detail
+{
 class library_loader_implementation
 {
 protected:
@@ -33,5 +35,6 @@ protected:
 private:
     std::string last_error;
 };
+}
 }
 }
