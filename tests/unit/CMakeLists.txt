@@ -53,10 +53,11 @@ endif()
 enable_testing()
 
 add_test(NAME all-unit-tests
+         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
          COMMAND $<TARGET_FILE:${PROJECT_NAME}> --gtest_color=yes --gtest_shuffle)
 
 add_custom_target(run-all-tests-verbose
-                    COMMAND ${CMAKE_CTEST_COMMAND} -V -C ${CMAKE_BUILD_TYPE} --timeout 300
+                    COMMAND ${CMAKE_CTEST_COMMAND} -V -C ${CMAKE_BUILD_TYPE} --build-run-dir ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} --timeout 300
                     DEPENDS ${PROJECT_NAME})
 
 _add_pedantic_warning_level(${PROJECT_NAME})
