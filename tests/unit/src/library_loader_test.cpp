@@ -1,3 +1,9 @@
+#ifdef _WIN32
+#include <windows.h>
+#elif __linux__
+#include <dlfcn.h>
+#endif
+
 #include <gtest/gtest.h>
 
 #include <function_extractor/exceptions.hpp>
@@ -23,5 +29,21 @@ TEST(library_loader_construction_destruction, basic)
     test_utils::assert_construction_and_destruction<library_loader>("./demo-library.dll");
     EXPECT_THROW(library_loader{ "foo" }, function_extractor::exceptions::library_load_failed);
     EXPECT_NO_THROW(library_loader{ "./demo-library.dll" });
+}
+
+TEST(library_loader_construction_destruction, resource_deallocation)
+{
+    library_loader shared_library{ "./demo-library.dll" };
+
+    const auto handle = shared_library.get_handle();
+
+    shared_library.~library_loader();
+
+    // error is expected, because the handle is freed
+#ifdef _WIN32
+    EXPECT_EQ(FreeLibrary(handle), 0);
+#elif __linux__
+    EXPECT_NE(dlclose(handle), 0);
+#endif
 }
 }
