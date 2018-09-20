@@ -3,13 +3,13 @@
 #include <functional>
 
 #include "function_extractor/library_loader.hpp"
-#include "function_extractor/detail/function_loader_impl.hpp"
+#include "function_extractor/detail/function_loader_base.hpp"
 
 namespace burda
 {
 namespace function_extractor
 {
-class function_loader : public detail::function_loader_implementation
+class function_loader : public detail::function_loader_base
 {
 public:
     explicit function_loader(const std::string & library_path)

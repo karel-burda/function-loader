@@ -10,7 +10,7 @@ namespace function_extractor
 {
 namespace detail
 {
-class library_loader_implementation
+class library_loader_base
 {
 protected:
     void load_library(const std::string & path)

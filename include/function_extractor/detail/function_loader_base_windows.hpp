@@ -10,7 +10,7 @@ namespace function_extractor
 {
 namespace detail
 {
-class function_loader_implementation
+class function_loader_base
 {
 protected:
     void * get_function_address(HMODULE handle, const std::string & function_name)

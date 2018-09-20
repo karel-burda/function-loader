@@ -21,6 +21,7 @@ static int show_usage()
         function_extractor::function_loader shared_library{ "./demo-library.dll" };
 
         // get procedures at runtime from the shared library
+        // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory
         const auto func_void_no_params = shared_library.get_procedure<void()>("function_with_no_params");
         const auto func_with_return_value_and_params = shared_library.get_procedure<int(float, const char *)>("function_with_return_value_and_params");
 
