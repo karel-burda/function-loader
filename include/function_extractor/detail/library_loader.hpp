@@ -7,6 +7,7 @@ namespace burda
 {
 namespace function_extractor
 {
+namespace detail {
 class library_loader : public detail::library_loader_base
 {
 public:
@@ -27,4 +28,4 @@ public:
 };
 }
 }
-
+}

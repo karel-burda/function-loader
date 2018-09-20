@@ -3,7 +3,6 @@
 
 #include <function_extractor/exceptions.hpp>
 #include <function_extractor/function_loader.hpp>
-#include <function_extractor/library_loader.hpp>
 
 static int print_error_and_exit(const std::exception & error)
 {
@@ -27,7 +26,7 @@ static int show_usage()
 
         // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
         func_void_no_params();
-        func_with_return_value_and_params(99.0, "foo");
+        std::clog << "func_with_return_value_and_params returned " << func_with_return_value_and_params(99.0, "foo");
     }
     catch (const function_extractor::exceptions::library_load_failed & error)
     {

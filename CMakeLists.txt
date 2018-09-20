@@ -19,12 +19,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 set(HEADERS
     include/function_extractor/function_loader.hpp
-    include/function_extractor/library_loader.hpp
     include/function_extractor/exceptions.hpp
 
     include/function_extractor/detail/function_loader_base.hpp
     $<$<PLATFORM_ID:Windows>:include/function_extractor/detail/function_loader_base_windows.hpp>
     $<$<PLATFORM_ID:Unix>:include/function_extractor/detail/function_loader_base_unix.hpp>
+
+    include/function_extractor/detail/library_loader.hpp
     include/function_extractor/detail/library_loader_base.hpp
     $<$<PLATFORM_ID:Windows>:include/function_extractor/detail/library_loader_base_windows.hpp>
     $<$<PLATFORM_ID:Unix>:include/function_extractor/detail/library_loader_base_unix.hpp>)

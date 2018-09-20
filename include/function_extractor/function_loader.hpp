@@ -2,8 +2,8 @@
 
 #include <functional>
 
-#include "function_extractor/library_loader.hpp"
 #include "function_extractor/detail/function_loader_base.hpp"
+#include "function_extractor/detail/library_loader.hpp"
 
 namespace burda
 {
@@ -22,7 +22,7 @@ public:
     {
         std::function<function_type> procedure = nullptr;
 
-        const void * procedure_address = get_function_address(library.get_handle(), procedure_name.c_str());
+        void * procedure_address = get_function_address(library.get_handle(), procedure_name.c_str());
 
         if (procedure_address == nullptr)
         {
@@ -39,7 +39,7 @@ public:
     }
 
 private:
-    library_loader library;
+    detail::library_loader library;
 };
 }
 }
