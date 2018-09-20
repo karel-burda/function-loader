@@ -3,38 +3,26 @@
 #include <functional>
 
 #include "function_extractor/library_loader.hpp"
+#include "function_extractor/detail/function_loader_impl.hpp"
 
 namespace burda
 {
 namespace function_extractor
 {
-class function_loader
+class function_loader : public detail::function_loader_implementation
 {
 public:
     explicit function_loader(const std::string & library_path)
         : library{ library_path }
     {
-
     }
-
-    template<typename T>
-    struct type_parser
-    {
-    };
-
-    template<typename Ret, typename... Args>
-    struct type_parser<Ret(Args...)> {
-        static std::function<Ret(Args...)> create_function(const FARPROC procedure_address) {
-            return std::function<Ret(Args...)>(reinterpret_cast<Ret(__cdecl *)(Args...)>(procedure_address));
-        }
-    };
 
     template<typename function_type>
     std::function<function_type> get_procedure(const std::string & procedure_name)
     {
         std::function<function_type> procedure = nullptr;
 
-        const FARPROC procedure_address = GetProcAddress(library.get_handle(), procedure_name.c_str());
+        const void * procedure_address = get_function_address(library.get_handle(), procedure_name.c_str());
 
         if (procedure_address == nullptr)
         {
@@ -42,8 +30,10 @@ public:
         }
         else
         {
-            procedure = type_parser<function_type>::create_function(procedure_address);
+            procedure = static_cast<function_type*>(procedure_address);
         }
+
+        // todo: check for null (different signature etc.)
 
         return procedure;
     }

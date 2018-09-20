@@ -22,11 +22,11 @@ static int show_usage()
 
         // get procedures at runtime from the shared library
         const auto func_void_no_params = shared_library.get_procedure<void()>("function_with_no_params");
-        //const auto func_void_int_param = library.get_procedure<void(int)>("bar");
+        const auto func_with_return_value_and_params = shared_library.get_procedure<int(float, const char *)>("function_with_return_value_and_params");
 
         // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
         func_void_no_params();
-        //func_void_int_param(99);
+        func_with_return_value_and_params(99.0, "foo");
     }
     catch (const function_extractor::exceptions::library_load_failed & error)
     {
