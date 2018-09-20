@@ -37,7 +37,9 @@ static int show_usage()
         return print_error_and_exit(error);
     }
 
-    // library object will go out of scope, thus it's going to free all resources and unloads the library handle
+    // "shared_library" object will go out of scope, thus it's going to free all resources and unloads the library handle
+
+    return EXIT_SUCCESS;
 }
 
 int main(int /*argc*/, char ** /*argv*/)
