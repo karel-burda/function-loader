@@ -4,9 +4,9 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/597386b6741746e9a2e3853a2928d461)](https://app.codacy.com/app/karel-burda/function-extractor?utm_source=github.com&utm_medium=referral&utm_content=karel-burda/function-extractor&utm_campaign=Badge_Grade_Dashboard)
 
 # Important
-**This project contains git sub-modules that are needed for building example and tests.
+**This project contains git sub-modules that are needed for building example and tests.**
 
-If you just want to use the implementation, you can clone without sub-modules. In case you want to build example, tests, or use CMake, please, be sure to clone the repository
+**If you just want to use the implementation, you can clone without sub-modules. In case you want to build example, tests, or use CMake, please, be sure to clone the repository
 with `--recurse-submodules` or `--recursive` on older versions of git.**
 
 # Introduction
