@@ -26,7 +26,10 @@ protected:
 
     void unload_library()
     {
-        dlclose(handle);
+        if (handle)
+        {
+            dlclose(handle);
+        }
     }
 
     char * get_last_error()
