@@ -30,7 +30,7 @@ public:
         }
         else
         {
-            procedure = static_cast<function_type*>(procedure_address);
+            procedure = reinterpret_cast<function_type*>(procedure_address);
         }
 
         // todo: check for null (different signature etc.)
