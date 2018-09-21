@@ -26,7 +26,12 @@ protected:
 
     void unload_library()
     {
-        FreeLibrary(handle);
+        if (handle)
+        {
+            FreeLibrary(handle);
+
+            handle = nullptr;
+        }
     }
 
     const char * get_last_error()

@@ -29,6 +29,8 @@ protected:
         if (handle)
         {
             dlclose(handle);
+
+            handle = nullptr;
         }
     }
 
