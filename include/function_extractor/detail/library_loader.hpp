@@ -1,20 +1,21 @@
 #pragma once
 
 #include "function_extractor/exceptions.hpp"
-#include "function_extractor/detail/library_loader_impl.hpp"
+#include "function_extractor/detail/library_loader_base.hpp"
 
 namespace burda
 {
 namespace function_extractor
 {
-class library_loader : public detail::library_loader_implementation
+namespace detail {
+class library_loader : public detail::library_loader_base
 {
 public:
     explicit library_loader(const std::string & path)
     {
         load_library(path);
 
-        if (handle == nullptr)
+        if (get_handle() == nullptr)
         {
             throw exceptions::library_load_failed{ path  + ", reason: " + get_last_error() };
         }
@@ -27,4 +28,4 @@ public:
 };
 }
 }
-
+}

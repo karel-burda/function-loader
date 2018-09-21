@@ -1,10 +1,13 @@
-![Version](https://img.shields.io/badge/version-0.1.1-green.svg)
+![Version](https://img.shields.io/badge/version-0.8.0-green.svg)
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/karel-burda/function-extractor.svg?branch=develop)](https://travis-ci.org/karel-burda/function-extractor)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/597386b6741746e9a2e3853a2928d461)](https://app.codacy.com/app/karel-burda/function-extractor?utm_source=github.com&utm_medium=referral&utm_content=karel-burda/function-extractor&utm_campaign=Badge_Grade_Dashboard)
 
 # Important
-**This project contains git sub-modules, please, be sure to clone the repository with `--recurse-submodules` or `--recursive` on older versions of git.**
+**This project contains git sub-modules that are needed for building example and tests.**
+
+**If you just want to use the implementation, you can clone without sub-modules. In case you want to build example, tests, or use CMake, please, be sure to clone the repository
+with `--recurse-submodules` or `--recursive` on older versions of git.**
 
 # Introduction
 `function_extractor` is a header-only library that can find free functions in a shared library and provide and `std::function<T>` wrapper around the found function.
@@ -32,6 +35,14 @@ Implementation resides in the `burda::function_extractor` namespace, so it might
 ```cpp
 // TODO
 ```
+Where this is the header of the `demo-library.(so|dll)`:
+```cpp
+extern "C"
+{
+
+}
+```
+
 For full use cases, see [main.cpp](example/src/main.cpp) or implementation of unit tests at [tests/unit](tests/unit).
 
 # Build Process

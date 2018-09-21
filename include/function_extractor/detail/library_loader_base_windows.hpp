@@ -10,8 +10,14 @@ namespace function_extractor
 {
 namespace detail
 {
-class library_loader_implementation
+class library_loader_base
 {
+public:
+    HMODULE get_handle() const
+    {
+        return handle;
+    }
+
 protected:
     void load_library(const std::string & path)
     {
@@ -20,7 +26,12 @@ protected:
 
     void unload_library()
     {
-        FreeLibrary(handle);
+        if (handle)
+        {
+            FreeLibrary(handle);
+
+            handle = nullptr;
+        }
     }
 
     const char * get_last_error()

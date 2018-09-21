@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include <function_extractor/exceptions.hpp>
-#include <function_extractor/library_loader.hpp>
+#include <function_extractor/function_loader.hpp>
 
 static int print_error_and_exit(const std::exception & error)
 {
@@ -11,21 +11,22 @@ static int print_error_and_exit(const std::exception & error)
     return EXIT_FAILURE;
 }
 
-int main()
+static int show_usage()
 {
     namespace function_extractor = burda::function_extractor;
 
     try
     {
-        function_extractor::library_loader library{ "./demo-library.dll" };
+        function_extractor::function_loader shared_library{ "./demo-library.dll" };
 
         // get procedures at runtime from the shared library
-        //const auto func_void_no_params = library.get_procedure<void()>("foo");
-        //const auto func_void_int_param = library.get_procedure<void(int)>("bar");
+        // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory
+        const auto func_void_no_params = shared_library.get_procedure<void()>("function_with_no_params");
+        const auto func_with_return_value_and_params = shared_library.get_procedure<int(float, const char *)>("function_with_return_value_and_params");
 
         // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
-        //func_void_no_params();
-        //func_void_int_param(99);
+        func_void_no_params();
+        std::clog << "func_with_return_value_and_params returned " << func_with_return_value_and_params(99.0, "foo");
     }
     catch (const function_extractor::exceptions::library_load_failed & error)
     {
@@ -36,7 +37,12 @@ int main()
         return print_error_and_exit(error);
     }
 
-    // library object will go out of scope, thus it's going to free all resources and unloads the library handle
+    // "shared_library" object will go out of scope, thus it's going to free all resources and unloads the library handle
 
     return EXIT_SUCCESS;
+}
+
+int main(int /*argc*/, char ** /*argv*/)
+{
+    return show_usage();
 }

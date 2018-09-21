@@ -10,8 +10,14 @@ namespace function_extractor
 {
 namespace detail
 {
-class library_loader_implementation
+class library_loader_base
 {
+public:
+    void * get_handle() const
+    {
+        return handle;
+    }
+
 protected:
     void load_library(const std::string & path)
     {
@@ -20,7 +26,12 @@ protected:
 
     void unload_library()
     {
-        dlclose(handle);
+        if (handle)
+        {
+            dlclose(handle);
+
+            handle = nullptr;
+        }
     }
 
     char * get_last_error()
@@ -28,6 +39,7 @@ protected:
         return dlerror();
     }
 
+private:
     void * handle = nullptr;
 };
 }

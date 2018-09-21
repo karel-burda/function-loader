@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-project(demo-library VERSION 0.0.1 LANGUAGES CXX)
+project(demo-library VERSION 0.8.0 LANGUAGES CXX)
 
 _print_status_message("building demo library")
 _print_project_version()
@@ -26,7 +26,7 @@ target_sources(${PROJECT_NAME}
                        src/export.hpp)
 
 # Unfortunately, we cannot use SUFFIX as empty string property on MSVC, because the LoadLibrary method from WinAPI
-# checks whether the file name has some suffix at all. Now using the same "dll" suffix only in Unixes
+# checks whether the file name has some suffix at all. For simplicity, use the same suffix also on POSIXEs
 set_target_properties(${PROJECT_NAME}
                           PROPERTIES
                               PREFIX ""

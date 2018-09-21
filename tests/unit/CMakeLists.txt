@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-project(tests VERSION 0.0.1 LANGUAGES CXX)
+project(tests VERSION 0.8.0 LANGUAGES CXX)
 
 _print_status_message("building with unit tests")
 _print_project_version()
@@ -62,3 +62,4 @@ add_custom_target(run-all-tests-verbose
 
 _add_pedantic_warning_level(${PROJECT_NAME})
 _supress_cxx_compiler_warning(${PROJECT_NAME} "keyword-macro")
+_supress_cxx_compiler_warning(${PROJECT_NAME} "maybe-uninitialized")
