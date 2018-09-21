@@ -62,3 +62,4 @@ add_custom_target(run-all-tests-verbose
 
 _add_pedantic_warning_level(${PROJECT_NAME})
 _supress_cxx_compiler_warning(${PROJECT_NAME} "keyword-macro")
+_supress_cxx_compiler_warning(${PROJECT_NAME} "maybe-uninitialized")
