@@ -12,10 +12,13 @@
 #include <test_utils/static_class_assertions.hpp>
 #include <test_utils/test_utils.hpp>
 
+#include "helpers.hpp"
+
 namespace
 {
 namespace function_extractor = burda::function_extractor;
 namespace test_utils = burda::test_utils;
+namespace testing = function_extractor::testing;
 
 using library_loader = function_extractor::detail::library_loader;
 
@@ -26,6 +29,13 @@ TEST(library_loader_construction_destruction, static_assertions)
 
 TEST(library_loader_construction_destruction, basic)
 {
+    test_utils::assert_construction_and_destruction<library_loader>(testing::get_demo_library_file_path());
+    EXPECT_THROW(library_loader{ "foo" }, function_extractor::exceptions::library_load_failed);
+    EXPECT_NO_THROW(library_loader{ testing::get_demo_library_file_path() });
+    EXPECT_NO_THROW(library_loader{ "./subdirectory/another/demo-library.dll" });
+    EXPECT_THROW(library_loader{ "./subdirectory/another/a/b/c/d/demo-library.dll" }, function_extractor::exceptions::library_load_failed);
+}
+
     test_utils::assert_construction_and_destruction<library_loader>("./demo-library.dll");
     EXPECT_THROW(library_loader{ "foo" }, function_extractor::exceptions::library_load_failed);
     EXPECT_NO_THROW(library_loader{ "./demo-library.dll" });
@@ -34,6 +44,7 @@ TEST(library_loader_construction_destruction, basic)
 TEST(library_loader_construction_destruction, resource_deallocation)
 {
     library_loader shared_library{ "./demo-library.dll" };
+    library_loader shared_library{ testing::get_demo_library_file_path() };
 
     const auto handle = shared_library.get_handle();
 
