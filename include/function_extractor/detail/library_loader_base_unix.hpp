@@ -39,6 +39,7 @@ protected:
         return dlerror();
     }
 
+private:
     void * handle = nullptr;
 };
 }
