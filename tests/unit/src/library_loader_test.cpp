@@ -47,7 +47,6 @@ TEST_F(library_loader, default_values)
 
 TEST(library_loader_construction_destruction, resource_deallocation)
 {
-    library_loader shared_library{ "./demo-library.dll" };
     library_loader shared_library{ testing::get_demo_library_file_path() };
 
     const auto handle = shared_library.get_handle();
