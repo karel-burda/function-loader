@@ -25,6 +25,8 @@ using library_loader = function_extractor::detail::library_loader;
 TEST(library_loader_construction_destruction, static_assertions)
 {
     test_utils::assert_default_constructibility<library_loader, false>();
+    test_utils::assert_copy_constructibility<library_loader, false>();
+    test_utils::assert_move_constructibility<library_loader, false>();
 }
 
 TEST(library_loader_construction_destruction, basic)
@@ -36,10 +38,12 @@ TEST(library_loader_construction_destruction, basic)
     EXPECT_THROW(library_loader{ "./subdirectory/another/a/b/c/d/demo-library.dll" }, function_extractor::exceptions::library_load_failed);
 }
 
-    test_utils::assert_construction_and_destruction<library_loader>("./demo-library.dll");
-    EXPECT_THROW(library_loader{ "foo" }, function_extractor::exceptions::library_load_failed);
-    EXPECT_NO_THROW(library_loader{ "./demo-library.dll" });
+/*
+TEST_F(library_loader, default_values)
+{
+    // TODO
 }
+*/
 
 TEST(library_loader_construction_destruction, resource_deallocation)
 {
