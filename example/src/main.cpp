@@ -17,12 +17,12 @@ static int show_usage()
 
     try
     {
-        function_extractor::function_loader shared_library{ "./demo-library.dll" };
+        function_extractor::function_loader loader{ "./demo-library.dll" };
 
         // get procedures at runtime from the shared library
         // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory
-        const auto func_void_no_params = shared_library.get_procedure<void()>("function_with_no_params");
-        const auto func_with_return_value_and_params = shared_library.get_procedure<int(float, const char *)>("function_with_return_value_and_params");
+        const auto func_void_no_params = loader.get_procedure<void()>("function_with_no_params");
+        const auto func_with_return_value_and_params = loader.get_procedure<int(float, const char *)>("function_with_return_value_and_params");
 
         // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
         func_void_no_params();
@@ -37,7 +37,7 @@ static int show_usage()
         return print_error_and_exit(error);
     }
 
-    // "shared_library" object will go out of scope, thus it's going to free all resources and unloads the library handle
+    // "loader" object will go out of scope, thus it's going to free all resources and unloads the library handle
 
     return EXIT_SUCCESS;
 }

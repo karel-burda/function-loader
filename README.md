@@ -1,7 +1,7 @@
 ![Version](https://img.shields.io/badge/version-0.8.0-green.svg)
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
-[![Build Status](https://travis-ci.org/karel-burda/function-extractor.svg?branch=develop)](https://travis-ci.org/karel-burda/function-extractor)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/597386b6741746e9a2e3853a2928d461)](https://app.codacy.com/app/karel-burda/function-extractor?utm_source=github.com&utm_medium=referral&utm_content=karel-burda/function-extractor&utm_campaign=Badge_Grade_Dashboard)
+[![Build Status](https://travis-ci.org/karel-burda/function-extractor.svg?branch=develop)](https://travis-ci.org/karel-burda/function-loader)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/597386b6741746e9a2e3853a2928d461)](https://app.codacy.com/app/karel-burda/function-loader?utm_source=github.com&utm_medium=referral&utm_content=karel-burda/function-loader&utm_campaign=Badge_Grade_Dashboard)
 
 # Important
 **This project contains git sub-modules that are needed for building example and tests.**
@@ -10,16 +10,15 @@
 with `--recurse-submodules` or `--recursive` on older versions of git.**
 
 # Introduction
-`function_extractor` is a header-only library that can find free functions in a shared library and provide and `std::function<T>` wrapper around the found function.
+`function_loader` is a header-only library that can find free functions in a shared library and provide and `std::function<T>` wrapper around the found function.
 
 Essentially a wrapper around the calls `LoadLibrary`, `GetProcedure` and `FreeLibrary` system calls on Windows and `dlopen`, `dlsym` and `dlclose` on POSIXes.
-
-* `library_loader`
 
 Implemented using C++11 for Windows and POSIX systems.
 
 These exceptions might be thrown:
-* ``
+* `library_load_failed`
+* `function_does_not_exist`
 
 See [exceptions.hpp](include/function_extractor/exceptions.hpp) for more info.
 
@@ -33,13 +32,47 @@ Implementation resides in the `burda::function_extractor` namespace, so it might
 
 ### Example
 ```cpp
-// TODO
+#include <iostream>
+
+#include <function_extractor/exceptions.hpp>
+#include <function_extractor/function_loader.hpp>
+
+namespace function_extractor = burda::function_extractor;
+
+try
+{
+    function_extractor::function_loader loader{ "./shared-library.so" };
+
+    // get procedures at runtime from the shared library
+    // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory
+    const auto func_void_no_params = loader.get_procedure<void()>("function_with_no_params");
+    const auto func_with_return_value_and_params = loader.get_procedure<int(float, const char *)>("function_with_return_value_and_params");
+
+    // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
+    func_void_no_params();
+    std::clog << "func_with_return_value_and_params returned " << func_with_return_value_and_params(99.0, "foo");
+}
+catch (const function_extractor::exceptions::library_load_failed & error)
+{
+    return print_error_and_exit(error);
+}
+catch (const function_extractor::exceptions::function_does_not_exist & error)
+{
+    return print_error_and_exit(error);
+}
+
+// "loader" object will go out of scope, thus it's going to free all resources and unloads the library handle
 ```
 Where this is the header of the `demo-library.(so|dll)`:
 ```cpp
 extern "C"
 {
+/// LIBRARY_EXPORT is defined elsewhere, but we just need the symbols to be visible from the shared libary
+/// (e.g. using "__declspec(dllexport)" or "__attribute__((visibility("default")))" on the GCC).
+/// When using function_loader, we don't need to import any symbols (e.g. "__declspec(dllimport)"), because there's no static linking
 
+LIBRARY_EXPORT void function_with_no_params();
+LIBRARY_EXPORT int function_with_return_value_and_params(float number, const char * str);
 }
 ```
 
