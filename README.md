@@ -41,24 +41,25 @@ namespace function_extractor = burda::function_extractor;
 
 try
 {
+    // or load DLL on Windows, or .dylib on OS X
     function_extractor::function_loader loader{ "./shared-library.so" };
 
     // get procedures at runtime from the shared library
     // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory
-    const auto func_void_no_params = loader.get_procedure<void()>("function_with_no_params");
-    const auto func_with_return_value_and_params = loader.get_procedure<int(float, const char *)>("function_with_return_value_and_params");
+    const auto func_simple = loader.get_procedure<void()>("function_with_no_params");
+    const auto func_more_complex = loader.get_procedure<int(float, const char *)>("function_with_return_value_and_params");
 
     // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
-    func_void_no_params();
-    std::clog << "func_with_return_value_and_params returned " << func_with_return_value_and_params(99.0, "foo");
+    func_simple();
+    std::clog << "func_with_return_value_and_params returned " << func_more_complex(99.0, "foo");
 }
 catch (const function_extractor::exceptions::library_load_failed & error)
 {
-    return print_error_and_exit(error);
+    // handle exception
 }
 catch (const function_extractor::exceptions::function_does_not_exist & error)
 {
-    return print_error_and_exit(error);
+    // handle exception
 }
 
 // "loader" object will go out of scope, thus it's going to free all resources and unloads the library handle
@@ -67,9 +68,10 @@ Where this is the header of the `demo-library.(so|dll)`:
 ```cpp
 extern "C"
 {
-/// LIBRARY_EXPORT is defined elsewhere, but we just need the symbols to be visible from the shared libary
+/// LIBRARY_EXPORT is defined elsewhere, but we just need the symbols to be visible from outside the shared libary
 /// (e.g. using "__declspec(dllexport)" or "__attribute__((visibility("default")))" on the GCC).
-/// When using function_loader, we don't need to import any symbols (e.g. "__declspec(dllimport)"), because there's no static linking
+/// When using function_loader, we don't need to import any symbols (e.g. "__declspec(dllimport)"),
+/// because there's no static linking.
 
 LIBRARY_EXPORT void function_with_no_params();
 LIBRARY_EXPORT int function_with_return_value_and_params(float number, const char * str);
