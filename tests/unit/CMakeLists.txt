@@ -7,7 +7,6 @@ _print_project_version()
 
 include("${CMAKE_SOURCE_DIR}/cmake-helpers/cmake-helpers/code-coverage.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake-helpers/cmake-helpers/gtest.cmake")
-include("${CMAKE_SOURCE_DIR}/cmake-helpers/cmake-helpers/threads.cmake")
 
 _gtest_download_and_build("gtest-build" "Release" "gtest-src" "0957cce368316577aae5ddfffcb67f24621d69e7")
 
