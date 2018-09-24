@@ -1,8 +1,7 @@
 ![Version](https://img.shields.io/badge/version-0.8.0-green.svg)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fd08a5e184a945208324fd7a415428ad)](https://app.codacy.com/app/karel-burda/function-loader?utm_source=github.com&utm_medium=referral&utm_content=karel-burda/function-loader&utm_campaign=Badge_Grade_Dashboard)
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/karel-burda/function-extractor.svg?branch=develop)](https://travis-ci.org/karel-burda/function-loader)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/597386b6741746e9a2e3853a2928d461)](https://app.codacy.com/app/karel-burda/function-loader?utm_source=github.com&utm_medium=referral&utm_content=karel-burda/function-loader&utm_campaign=Badge_Grade_Dashboard)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fd08a5e184a945208324fd7a415428ad)](https://app.codacy.com/app/karel-burda/function-loader?utm_source=github.com&utm_medium=referral&utm_content=karel-burda/function-loader&utm_campaign=Badge_Grade_Dashboard)
 
 # Important
 **This project contains git sub-modules that are needed for building example and tests.**
@@ -48,7 +47,8 @@ try
     // get procedures at runtime from the shared library
     // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory
     const auto func_simple = loader.get_procedure<void()>("function_with_no_params");
-    const auto func_more_complex = loader.get_procedure<int(float, const char *)>("function_with_return_value_and_params");
+    const auto func_more_complex = loader.get_procedure<int(float, const char *)>
+                                       ("function_with_return_value_and_params");
 
     // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
     func_simple();
@@ -65,7 +65,7 @@ catch (const function_extractor::exceptions::function_does_not_exist & error)
 
 // "loader" object will go out of scope, thus it's going to free all resources and unloads the library handle
 ```
-Where this is the header of the `demo-library.(so|dll)`:
+Where this is the header of the `shared-library.(so|dll|dylib)`:
 ```cpp
 extern "C"
 {
