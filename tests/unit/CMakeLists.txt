@@ -40,8 +40,6 @@ if (COVERAGE)
     _print_status_message("building unit tests with code coverage")
 
     _coverage_add_build_options(${PROJECT_NAME})
-
-    endif()
 endif()
 
 enable_testing()
