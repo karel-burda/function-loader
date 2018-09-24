@@ -22,14 +22,14 @@ namespace testing = function_extractor::testing;
 
 using library_loader = function_extractor::detail::library_loader;
 
-TEST(library_loader_construction_destruction, static_assertions)
+TEST(library_loader, static_assertions)
 {
     test_utils::assert_default_constructibility<library_loader, false>();
     test_utils::assert_copy_constructibility<library_loader, false>();
     test_utils::assert_move_constructibility<library_loader, false>();
 }
 
-TEST(library_loader_construction_destruction, basic)
+TEST(library_loader, construction_destruction)
 {
     test_utils::assert_construction_and_destruction<library_loader>(testing::get_demo_library_file_path());
     EXPECT_THROW(library_loader{ "foo" }, function_extractor::exceptions::library_load_failed);
@@ -38,14 +38,15 @@ TEST(library_loader_construction_destruction, basic)
     EXPECT_THROW(library_loader{ "./subdirectory/another/a/b/c/d/demo-library.dll" }, function_extractor::exceptions::library_load_failed);
 }
 
-/*
-TEST_F(library_loader, default_values)
-{
-    // TODO
-}
-*/
 
-TEST(library_loader_construction_destruction, resource_deallocation)
+TEST(library_loader, default_values)
+{
+    library_loader shared_library{ testing::get_demo_library_file_path() };
+    EXPECT_NE(shared_library.get_handle(), nullptr);
+}
+
+
+TEST(library_loader, resource_deallocation)
 {
     library_loader shared_library{ testing::get_demo_library_file_path() };
 
