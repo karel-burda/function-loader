@@ -18,6 +18,7 @@ target_sources(
         PUBLIC
             src/exceptions_test.cpp
             src/library_loader_test.cpp
+            src/function_loader_test.cpp
 
         PRIVATE
             include/helpers.hpp)

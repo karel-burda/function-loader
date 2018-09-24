@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include <function_extractor/exceptions.hpp>
-
 #include <test_utils/static_class_assertions.hpp>
 
 namespace

@@ -8,7 +8,6 @@
 
 #include <function_extractor/exceptions.hpp>
 #include <function_extractor/detail/library_loader.hpp>
-
 #include <test_utils/static_class_assertions.hpp>
 #include <test_utils/test_utils.hpp>
 
