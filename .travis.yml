@@ -17,7 +17,6 @@ jobs:
              - g++-5
              - valgrind
              - cppcheck
-             - gcov
        install: export CXX="g++-5"
        script:
          - set -e
