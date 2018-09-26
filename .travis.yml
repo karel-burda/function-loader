@@ -18,7 +18,7 @@ jobs:
              - valgrind
              - cppcheck
        before_install:
-         - pip install cpp-coveralls
+         - pip install --user cpp-coveralls
        install: export CXX="g++-5"
        script:
          - set -e
