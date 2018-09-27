@@ -17,11 +17,13 @@ jobs:
              - g++-5
              - valgrind
              - cppcheck
+       before_install:
+         - pip install --user cpp-coveralls
        install: export CXX="g++-5"
        script:
          - set -e
 
-         - cmake -Bbuild -H. -DEXAMPLE:BOOL=ON -DUNIT-TESTS:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+         - cmake -Bbuild -H. -DEXAMPLE:BOOL=ON -DUNIT-TESTS:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo -DCOVERAGE:BOOL=ON
 
          - cppcheck --enable=all -I include -I test-utils/include --language=c++ --platform=unix64 --std=c++11 --check-config --suppress=missingIncludeSystem -v ./example ./tests
 
@@ -32,5 +34,7 @@ jobs:
          - popd
 
          - cmake --build build --target run-all-tests-verbose --config RelWithDebInfo
+         - ls -la build && ls -la build/bin
+         - coveralls -e ./build/gtest-src -e ./build/CMakeFiles -e ./tests/unit -e ./example --gcov-options '\-lp'
 
          - set +e

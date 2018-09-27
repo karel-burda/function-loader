@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-project(example VERSION 0.8.0 LANGUAGES CXX)
+project(example LANGUAGES CXX)
 
 _print_status_message("building with example")
 _print_project_version()

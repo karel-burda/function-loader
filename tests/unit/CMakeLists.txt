@@ -1,10 +1,11 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-project(tests VERSION 0.8.0 LANGUAGES CXX)
+project(tests LANGUAGES CXX)
 
 _print_status_message("building with unit tests")
 _print_project_version()
 
+include("${CMAKE_SOURCE_DIR}/cmake-helpers/cmake-helpers/code-coverage.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake-helpers/cmake-helpers/gtest.cmake")
 include("${CMAKE_SOURCE_DIR}/cmake-helpers/cmake-helpers/threads.cmake")
 
@@ -38,20 +39,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${test-utils_LIBRARIES})
 if (COVERAGE)
     _print_status_message("building unit tests with code coverage")
 
-    if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-        target_compile_options(
-            ${PROJECT_NAME}
-                PRIVATE
-                    -fprofile-arcs
-                    -ftest-coverage
-                    -fcoverage-mapping
-                    -fprofile-instr-generate)
-
-        set_target_properties(
-            ${PROJECT_NAME}
-                PROPERTIES
-                    LINK_FLAGS "-fprofile-arcs -ftest-coverage")
-    endif()
+    _coverage_add_build_options(${PROJECT_NAME})
 endif()
 
 enable_testing()
