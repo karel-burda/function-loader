@@ -48,7 +48,8 @@ try
     // get procedures at runtime from the shared library
     // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory
     const auto func_simple = loader.get_procedure<void()>("function_with_no_params");
-    const auto func_more_complex = loader.get_procedure<int(float, const char *)>("function_with_return_value_and_params");
+    const auto func_more_complex = loader.get_procedure<int(float, const char *)>
+                                       ("function_with_return_value_and_params");
 
     // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
     func_simple();
@@ -65,7 +66,7 @@ catch (const function_extractor::exceptions::function_does_not_exist & error)
 
 // "loader" object will go out of scope, thus it's going to free all resources and unloads the library handle
 ```
-Where this is the header of the `demo-library.(so|dll)`:
+Where this is the header of the `shared-library.(so|dll|dylib)`:
 ```cpp
 extern "C"
 {
