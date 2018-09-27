@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-project(tests VERSION 0.8.0 LANGUAGES CXX)
+project(tests LANGUAGES CXX)
 
 _print_status_message("building with unit tests")
 _print_project_version()

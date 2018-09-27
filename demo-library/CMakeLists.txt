@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-project(demo-library VERSION 0.8.0 LANGUAGES CXX)
+project(demo-library LANGUAGES CXX)
 
 _print_status_message("building demo library")
 _print_project_version()
