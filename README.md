@@ -2,7 +2,6 @@
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/karel-burda/function-loader.svg?branch=develop)](https://travis-ci.org/karel-burda/function-loader)
 [![Coverage Status](https://coveralls.io/repos/github/karel-burda/function-loader/badge.svg?branch=develop)](https://coveralls.io/github/karel-burda/function-loader?branch=develop)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/597386b6741746e9a2e3853a2928d461)](https://app.codacy.com/app/karel-burda/function-loader?utm_source=github.com&utm_medium=referral&utm_content=karel-burda/function-loader&utm_campaign=Badge_Grade_Dashboard)
 
 # Important
 **This project contains git sub-modules that are needed for building example and tests.**
