@@ -24,7 +24,7 @@ static int show_usage()
         const auto func_void_no_params = loader.get_procedure<void()>("function_with_no_params");
         const auto func_with_return_value_and_params = loader.get_procedure<int(float, const char *)>("function_with_return_value_and_params");
 
-        // don't have to check for call-ability of the function, otherwise the "function_does_not_exist" would be thrown
+        // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
         func_void_no_params();
         std::clog << "func_with_return_value_and_params returned " << func_with_return_value_and_params(99.0, "foo");
 

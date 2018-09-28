@@ -27,7 +27,7 @@ See [exceptions.hpp](include/function_loader/exceptions.hpp) for more info.
 In order to use the `function_loader`, it's the `include` directory that matters. Just make sure that the header search path is pointing to the [include](include) directory located in the root directory.
 On POSIXes, the `libdl` has to be linked to the final executable.
 
-Tou can use the provided package config at [function-extractor-config.cmake.in](function-extractor-config.cmake.in).
+Tou can use the provided package config at [function-loader-config.cmake.in](function-loader-config.cmake.in).
 
 Implementation resides in the `burda::function_loader` namespace, so it might be useful to do `namespace fe = burda::function_loader;` in your project.
 
@@ -51,7 +51,7 @@ try
     const auto func_more_complex = loader.get_procedure<int(float, const char *)>
                                        ("function_with_return_value_and_params");
 
-    // don't have to check for call-ability of the function, otherwise the "function_does_not_exist" would be thrown
+    // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
     func_simple();
     std::clog << "func_with_return_value_and_params returned " << func_more_complex(99.0, "foo");
 
@@ -116,11 +116,11 @@ It is also possible to turn off build of the example, and build just the tests:
 `cmake -Bbuild -H. -DEXAMPLE:BOOL=OFF -DUNIT-TESTS:BOOL=ON`
 
 # Continuous Integration
-Continuous Integration is now being run Linux (gcc 5.x and clang 5.x) on Travis: https://travis-ci.org/karel-burda/function-extractor.
+Continuous Integration is now being run Linux (gcc 5.x and clang 5.x) on Travis: https://travis-ci.org/karel-burda/function-loader.
 
 Compilers are set-up to treat warnings as errors and with pedantic warning level. Targets are built in a release mode with debug symbols (because of the [valgrind](http://valgrind.org) and code coverage measure).
 
 The project is using just one stage (because of the overhead of spawning other stages)
 * `example and tests (C++14)` -- cppcheck, build (linux, gcc5), valgrind, tests
 
-Project uses [coveralls.io](https://coveralls.io/github/karel-burda/function-extractor) for code coverage summary and [codacy](https://app.codacy.com/app/karel-burda/function-extractor/dashboard) for the coding style and additional static analysis.
+Project uses [coveralls.io](https://coveralls.io/github/karel-burda/function-loader) for code coverage summary and [codacy](https://app.codacy.com/app/karel-burda/function-loader/dashboard) for the coding style and additional static analysis.
