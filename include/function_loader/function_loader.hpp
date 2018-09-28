@@ -2,12 +2,12 @@
 
 #include <functional>
 
-#include "function_extractor/detail/function_loader_base.hpp"
-#include "function_extractor/detail/library_loader.hpp"
+#include "function_loader/detail/function_loader_base.hpp"
+#include "function_loader/detail/library_loader.hpp"
 
 namespace burda
 {
-namespace function_extractor
+namespace function_loader
 {
 class function_loader : public detail::function_loader_base
 {

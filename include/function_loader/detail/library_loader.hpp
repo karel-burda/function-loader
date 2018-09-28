@@ -1,13 +1,13 @@
 #pragma once
 
-#include "function_extractor/exceptions.hpp"
-#include "function_extractor/detail/library_loader_base.hpp"
-#include "function_extractor/detail/primitives/idisable_copy.hpp"
-#include "function_extractor/detail/primitives/idisable_move.hpp"
+#include "function_loader/exceptions.hpp"
+#include "function_loader/detail/library_loader_base.hpp"
+#include "function_loader/detail/primitives/idisable_copy.hpp"
+#include "function_loader/detail/primitives/idisable_move.hpp"
 
 namespace burda
 {
-namespace function_extractor
+namespace function_loader
 {
 namespace detail {
 class library_loader : public detail::library_loader_base,

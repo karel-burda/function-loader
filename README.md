@@ -21,29 +21,29 @@ These exceptions might be thrown:
 * `library_load_failed`
 * `function_does_not_exist`
 
-See [exceptions.hpp](include/function_extractor/exceptions.hpp) for more info.
+See [exceptions.hpp](include/function_loader/exceptions.hpp) for more info.
 
 # Usage
-In order to use the `function_extractor`, it's the `include` directory that matters. Just make sure that the header search path is pointing to the [include](include) directory located in the root directory.
+In order to use the `function_loader`, it's the `include` directory that matters. Just make sure that the header search path is pointing to the [include](include) directory located in the root directory.
 On POSIXes, the `libdl` has to be linked to the final executable.
 
 Tou can use the provided package config at [function-extractor-config.cmake.in](function-extractor-config.cmake.in).
 
-Implementation resides in the `burda::function_extractor` namespace, so it might be useful to do `namespace fe = burda::function_extractor;` in your project.
+Implementation resides in the `burda::function_loader` namespace, so it might be useful to do `namespace fe = burda::function_loader;` in your project.
 
 ### Example
 ```cpp
 #include <iostream>
 
-#include <function_extractor/exceptions.hpp>
-#include <function_extractor/function_loader.hpp>
+#include <function_loader/exceptions.hpp>
+#include <function_loader/function_loader.hpp>
 
-namespace function_extractor = burda::function_extractor;
+namespace function_loader = burda::function_loader;
 
 try
 {
     // or load DLL on Windows, or .dylib on OS X
-    function_extractor::function_loader loader{ "./shared-library.so" };
+    function_loader::function_loader loader{ "./shared-library.so" };
 
     // get procedures at runtime from the shared library
     // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory
@@ -51,21 +51,22 @@ try
     const auto func_more_complex = loader.get_procedure<int(float, const char *)>
                                        ("function_with_return_value_and_params");
 
-    // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
+    // don't have to check for call-ability of the function, otherwise the "function_does_not_exist" would be thrown
     func_simple();
     std::clog << "func_with_return_value_and_params returned " << func_more_complex(99.0, "foo");
-}
-catch (const function_extractor::exceptions::library_load_failed & error)
-{
-    // handle exception
-}
-catch (const function_extractor::exceptions::function_does_not_exist & error)
-{
-    // handle exception
-}
 
-// "loader" object will go out of scope, thus it's going to free all resources and unloads the library handle
+    // "loader" object will go out of scope, thus it's going to free all resources and unloads the library handle
+}
+catch (const function_loader::exceptions::library_load_failed & error)
+{
+    // handle exception
+}
+catch (const function_loader::exceptions::function_does_not_exist & error)
+{
+    // handle exception
+}
 ```
+
 Where this is the header of the `shared-library.(so|dll|dylib)`:
 ```cpp
 extern "C"

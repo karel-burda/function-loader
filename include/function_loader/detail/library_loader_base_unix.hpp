@@ -2,18 +2,18 @@
 
 #include <string>
 
-#include <windows.h>
+#include <dlfcn.h>
 
 namespace burda
 {
-namespace function_extractor
+namespace function_loader
 {
 namespace detail
 {
 class library_loader_base
 {
 public:
-    HMODULE get_handle() const
+    void * get_handle() const
     {
         return handle;
     }
@@ -21,30 +21,26 @@ public:
 protected:
     void load_library(const std::string & path)
     {
-        handle = LoadLibraryExA(path.c_str(), nullptr, 0);
+        handle = dlopen(path.c_str(), RTLD_NOW);
     }
 
     void unload_library()
     {
         if (handle)
         {
-            FreeLibrary(handle);
+            dlclose(handle);
 
             handle = nullptr;
         }
     }
 
-    const char * get_last_error()
+    char * get_last_error()
     {
-        last_error = std::to_string(GetLastError());
-
-        return last_error.c_str();
+        return dlerror();
     }
 
-    HMODULE handle = nullptr;
-
 private:
-    std::string last_error;
+    void * handle = nullptr;
 };
 }
 }

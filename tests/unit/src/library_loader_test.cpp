@@ -6,8 +6,8 @@
 
 #include <gtest/gtest.h>
 
-#include <function_extractor/exceptions.hpp>
-#include <function_extractor/detail/library_loader.hpp>
+#include <function_loader/exceptions.hpp>
+#include <function_loader/detail/library_loader.hpp>
 #include <test_utils/static_class_assertions.hpp>
 #include <test_utils/test_utils.hpp>
 
@@ -15,11 +15,12 @@
 
 namespace
 {
-namespace function_extractor = burda::function_extractor;
+namespace exceptions = burda::function_loader::exceptions;
+namespace function_loader = burda::function_loader;
 namespace test_utils = burda::test_utils;
-namespace testing = function_extractor::testing;
+namespace testing = function_loader::testing;
 
-using library_loader = function_extractor::detail::library_loader;
+using library_loader = function_loader::detail::library_loader;
 
 TEST(library_loader, static_assertions)
 {
@@ -31,10 +32,10 @@ TEST(library_loader, static_assertions)
 TEST(library_loader, construction_destruction)
 {
     test_utils::assert_construction_and_destruction<library_loader>(testing::get_demo_library_file_path());
-    EXPECT_THROW(library_loader{ "foo" }, function_extractor::exceptions::library_load_failed);
+    EXPECT_THROW(library_loader{ "foo" }, exceptions::library_load_failed);
     EXPECT_NO_THROW(library_loader{ testing::get_demo_library_file_path() });
     EXPECT_NO_THROW(library_loader{ "./subdirectory/another/demo-library.dll" });
-    EXPECT_THROW(library_loader{ "./subdirectory/another/a/b/c/d/demo-library.dll" }, function_extractor::exceptions::library_load_failed);
+    EXPECT_THROW(library_loader{ "./subdirectory/another/a/b/c/d/demo-library.dll" }, exceptions::library_load_failed);
 }
 
 

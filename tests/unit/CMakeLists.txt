@@ -28,9 +28,9 @@ add_dependencies(${PROJECT_NAME} gtest-build)
 
 _gtest_resolve_build_options(${PROJECT_NAME})
 
-find_package(function-extractor REQUIRED CONFIG PATHS ${CMAKE_BINARY_DIR} NO_DEFAULT_PATH)
-target_include_directories(${PROJECT_NAME} PUBLIC ${function-extractor_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${function-extractor_LIBRARIES})
+find_package(function-loader REQUIRED CONFIG PATHS ${CMAKE_BINARY_DIR} NO_DEFAULT_PATH)
+target_include_directories(${PROJECT_NAME} PUBLIC ${function-loader_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${function-loader_LIBRARIES})
 
 find_package(test-utils REQUIRED CONFIG PATHS ${CMAKE_BINARY_DIR} NO_DEFAULT_PATH)
 target_include_directories(${PROJECT_NAME} PUBLIC ${test-utils_INCLUDE_DIRS})

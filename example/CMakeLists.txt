@@ -11,9 +11,9 @@ target_sources(${PROJECT_NAME}
                 PUBLIC
                     src/main.cpp)
 
-find_package(function-extractor REQUIRED CONFIG PATHS ${CMAKE_BINARY_DIR} NO_DEFAULT_PATH)
-target_include_directories(${PROJECT_NAME} PUBLIC ${function-extractor_INCLUDE_DIRS})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${function-extractor_LIBRARIES})
+find_package(function-loader REQUIRED CONFIG PATHS ${CMAKE_BINARY_DIR} NO_DEFAULT_PATH)
+target_include_directories(${PROJECT_NAME} PUBLIC ${function-loader_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${function-loader_LIBRARIES})
 
 _add_pedantic_warning_level(${PROJECT_NAME})
 

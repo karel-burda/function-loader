@@ -2,7 +2,7 @@
 
 namespace burda
 {
-namespace function_extractor
+namespace function_loader
 {
 namespace testing
 {
