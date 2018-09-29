@@ -5,10 +5,10 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/fd08a5e184a945208324fd7a415428ad)](https://app.codacy.com/app/karel-burda/function-loader?utm_source=github.com&utm_medium=referral&utm_content=karel-burda/function-loader&utm_campaign=Badge_Grade_Dashboard)
 
 # Important
-**This project contains git sub-modules that are needed for building example and tests.**
+This project contains git sub-modules that are needed for building example and tests.
 
-**If you just want to use the implementation, you can clone without sub-modules. In case you want to build example, tests, or use CMake, please, be sure to clone the repository
-with `--recurse-submodules` or `--recursive` on older versions of git.**
+If you just want to use the implementation, you can clone **without** sub-modules. In case you want to build example, tests, or use CMake, please, be sure to clone the repository
+with `--recurse-submodules` or `--recursive` on older versions of git. Alternatively, you can clone without sub-modules and initialize these later.
 
 # Introduction
 `function_loader` is a header-only library that can find free functions in a shared library and provide and `std::function<T>` wrapper around the found function.
@@ -53,17 +53,17 @@ try
 
     // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
     func_simple();
-    std::clog << "func_with_return_value_and_params returned " << func_more_complex(99.0, "foo");
+    std::clog << "func_more_complex returned " << func_more_complex(99.0, "foo");
 
     // "loader" object will go out of scope, thus it's going to free all resources and unloads the library handle
 }
 catch (const function_loader::exceptions::library_load_failed & error)
 {
-    // handle exception
+    // handle exception, error.what() contains information about the error from the OS
 }
 catch (const function_loader::exceptions::function_does_not_exist & error)
 {
-    // handle exception
+    // handle exception, error.what() contains information about the error from the OS
 }
 ```
 
@@ -84,7 +84,7 @@ LIBRARY_EXPORT int function_with_return_value_and_params(float number, const cha
 For full use cases, see [main.cpp](example/src/main.cpp) or implementation of unit tests at [tests/unit](tests/unit).
 
 # Build Process
-Library itself is just header-only, so no need for additional linking, just threading library might need to be linked to the final executable on most Linux standard library implementations. See section [Usage](#Usage) for more info.
+Library itself is just header-only, so no need for additional linking, just `libdl` needs to be linked to the final executable on POSIXes. See section [Usage](#Usage) for more info.
 
 In order to build the usage example ([main.cpp](example/src/main.cpp)) run the cmake in the top-level directory like this:
 
@@ -116,7 +116,7 @@ It is also possible to turn off build of the example, and build just the tests:
 `cmake -Bbuild -H. -DEXAMPLE:BOOL=OFF -DUNIT-TESTS:BOOL=ON`
 
 # Continuous Integration
-Continuous Integration is now being run Linux (gcc 5.x and clang 5.x) on Travis: https://travis-ci.org/karel-burda/function-loader.
+Continuous Integration is now being run Linux (with GCC 5.x) on Travis: https://travis-ci.org/karel-burda/function-loader.
 
 Compilers are set-up to treat warnings as errors and with pedantic warning level. Targets are built in a release mode with debug symbols (because of the [valgrind](http://valgrind.org) and code coverage measure).
 
