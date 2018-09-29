@@ -38,7 +38,6 @@ TEST(library_loader, construction_destruction)
     EXPECT_THROW(library_loader{ "./subdirectory/another/a/b/c/d/demo-library.dll" }, exceptions::library_load_failed);
 }
 
-
 TEST(library_loader, default_values)
 {
     library_loader shared_library{ testing::get_demo_library_file_path() };
@@ -60,5 +59,22 @@ TEST(library_loader, resource_deallocation)
 #elif __linux__
     EXPECT_NE(dlclose(handle), 0);
 #endif
+}
+
+TEST(library_loader, exceptions)
+{
+    // what() called on the exception should not be empty
+    try
+    {
+        library_loader loader{ "./foo" };
+    }
+    catch (const exceptions::library_load_failed & error)
+    {
+        EXPECT_NE(error.what(), "");
+    }
+    catch (...)
+    {
+        FAIL() << "Correct exception not thrown";
+    }
 }
 }

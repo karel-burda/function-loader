@@ -57,4 +57,22 @@ TEST(function_loader, get_procedure)
         EXPECT_THROW(loader.get_procedure<int(float, const char *)>("function_that_does_not_exists"), exceptions::function_does_not_exist);
     }
 }
+
+TEST(function_loader, exceptions)
+{
+    // what() called on the exception should not be empty
+    try
+    {
+        function_loader loader{ testing::get_demo_library_file_path() };
+        loader.get_procedure<void()>("foo-bar-baz");
+    }
+    catch (const exceptions::function_does_not_exist & error)
+    {
+        EXPECT_NE(error.what(), "");
+    }
+    catch (...)
+    {
+        FAIL() << "Correct exception not thrown";
+    }
+}
 }
