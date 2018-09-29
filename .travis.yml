@@ -35,6 +35,6 @@ jobs:
 
          - cmake --build build --target run-all-tests-verbose --config RelWithDebInfo
          - ls -la build && ls -la build/bin
-         - coveralls -e ./build/gtest-src -e ./build/CMakeFiles -e ./tests/unit -e ./example -e cmake-helpers --gcov-options '\-lp'
+         - coveralls -e ./build/gtest-src -e build/demo-library -e ./build/CMakeFiles -e ./tests/unit -e ./example -e cmake-helpers -e demo-library --gcov-options '\-lp'
 
          - set +e
