@@ -25,7 +25,7 @@ jobs:
 
          - cmake -Bbuild -H. -DEXAMPLE:BOOL=ON -DUNIT-TESTS:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo -DCOVERAGE:BOOL=ON
 
-         - cppcheck --enable=all -I include -I test-utils/include --language=c++ --platform=unix64 --std=c++11 --check-config --suppress=missingIncludeSystem -v ./example ./tests
+         - cppcheck --enable=all -I include -I test-utils/include -I tests/unit/include --language=c++ --platform=unix64 --std=c++11 --check-config --suppress=missingIncludeSystem -v ./example ./tests
 
          - cmake --build build --target example --config RelWithDebInfo
 
@@ -35,6 +35,6 @@ jobs:
 
          - cmake --build build --target run-all-tests-verbose --config RelWithDebInfo
          - ls -la build && ls -la build/bin
-         - coveralls -e ./build/gtest-src -e ./build/CMakeFiles -e ./tests/unit -e ./example --gcov-options '\-lp'
+         - coveralls -e ./build/gtest-src -e build/demo-library -e ./build/CMakeFiles -e ./tests/unit -e ./example -e cmake-helpers -e demo-library --gcov-options '\-lp'
 
          - set +e
