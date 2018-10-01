@@ -36,25 +36,25 @@ TEST(function_loader, default_values)
     EXPECT_NE(&loader.library, nullptr);
 }
 
-TEST(function_loader, get_procedure)
+TEST(function_loader, get_function)
 {
     function_loader loader{ testing::get_demo_library_file_path() };
 
     {
-        const auto func_void_no_params = loader.get_procedure<void()>("function_with_no_params");
+        const auto func_void_no_params = loader.get_function<void()>("function_with_no_params");
 
         EXPECT_NO_THROW(func_void_no_params());
     }
 
     {
-        const auto func_with_return_value_and_params = loader.get_procedure<int(float, const char *)>("function_with_return_value_and_params");
+        const auto func_with_return_value_and_params = loader.get_function<int(float, const char *)>("function_with_return_value_and_params");
         int returnedValue = 0;
         EXPECT_NO_THROW(returnedValue = func_with_return_value_and_params(2.3f, "foo-bar-baz"));
         EXPECT_EQ(returnedValue, 999);
     }
 
     {
-        EXPECT_THROW(loader.get_procedure<int(float, const char *)>("function_that_does_not_exists"), exceptions::function_does_not_exist);
+        EXPECT_THROW(loader.get_function<int(float, const char *)>("function_that_does_not_exists"), exceptions::function_does_not_exist);
     }
 }
 
@@ -64,7 +64,7 @@ TEST(function_loader, exceptions)
     try
     {
         function_loader loader{ testing::get_demo_library_file_path() };
-        loader.get_procedure<void()>("foo-bar-baz");
+        loader.get_function<void()>("foo-bar-baz");
     }
     catch (const exceptions::function_does_not_exist & error)
     {
