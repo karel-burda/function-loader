@@ -47,8 +47,8 @@ try
 
     // get procedures at runtime from the shared library
     // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory
-    const auto func_simple = loader.get_procedure<void()>("function_with_no_params");
-    const auto func_more_complex = loader.get_procedure<int(float, const char *)>
+    const auto func_simple = loader.get_function<void()>("function_with_no_params");
+    const auto func_more_complex = loader.get_function<int(float, const char *)>
                                        ("function_with_return_value_and_params");
 
     // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
