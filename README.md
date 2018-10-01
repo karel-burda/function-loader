@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-0.9.1-green.svg)
+![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/karel-burda/function-loader.svg?branch=master)](https://travis-ci.org/karel-burda/function-loader)
 [![Coverage Status](https://coveralls.io/repos/github/karel-burda/function-loader/badge.svg?branch=master)](https://coveralls.io/github/karel-burda/function-loader?branch=master)
@@ -13,23 +13,23 @@ with `--recurse-submodules` or `--recursive` on older versions of git. Alternati
 # Introduction
 `function_loader` is a header-only library that can find free functions in a shared library and provide and `std::function<T>` wrapper around the found function.
 
-Essentially a wrapper around the calls `LoadLibrary`, `GetProcedure` and `FreeLibrary` system calls on Windows and `dlopen`, `dlsym` and `dlclose` on POSIXes.
+Essentially provides wrapper around the calls `LoadLibrary`, `GetProcedure` and `FreeLibrary` system calls on Windows and `dlopen`, `dlsym` and `dlclose` on POSIXes.
 
-Implemented using C++11 for Windows and POSIX systems.
+Implemented using C++11.
 
 These exceptions might be thrown:
 * `library_load_failed`
 * `function_does_not_exist`
 
-See [exceptions.hpp](include/function_loader/exceptions.hpp) for more info.
+Exceptions provide additional information about the reason using `what()`,  see [exceptions.hpp](include/function_loader/exceptions.hpp) for more info.
 
 # Usage
 In order to use the `function_loader`, it's the `include` directory that matters. Just make sure that the header search path is pointing to the [include](include) directory located in the root directory.
 On POSIXes, the `libdl` has to be linked to the final executable.
 
-Tou can use the provided package config at [function-loader-config.cmake.in](function-loader-config.cmake.in).
+You can use the provided CMake package configuration at [function-loader-config.cmake.in](function-loader-config.cmake.in).
 
-Implementation resides in the `burda::function_loader` namespace, so it might be useful to do `namespace fe = burda::function_loader;` in your project.
+Implementation resides in the `burda::function_loader` namespace, so it might be useful to do something like `namespace fe = burda::function_loader;` in your project.
 
 ### Example
 ```cpp
