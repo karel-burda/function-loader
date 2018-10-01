@@ -31,20 +31,14 @@ public:
     template<typename function_type>
     std::function<function_type> get_procedure(const std::string & procedure_name)
     {
-        std::function<function_type> procedure = nullptr;
-
         void * procedure_address = get_function_address(library.get_handle(), procedure_name.c_str());
 
         if (procedure_address == nullptr)
         {
             throw exceptions::function_does_not_exist{ procedure_name };
         }
-        else
-        {
-            procedure = reinterpret_cast<function_type*>(procedure_address);
-        }
 
-        return procedure;
+        return reinterpret_cast<function_type*>(procedure_address);
     }
 
 private:
