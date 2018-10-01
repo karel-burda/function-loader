@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
+![Version](https://img.shields.io/badge/version-1.1.0-green.svg)
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/karel-burda/function-loader.svg?branch=develop)](https://travis-ci.org/karel-burda/function-loader)
 [![Coverage Status](https://coveralls.io/repos/github/karel-burda/function-loader/badge.svg?branch=develop)](https://coveralls.io/github/karel-burda/function-loader?branch=develop)
