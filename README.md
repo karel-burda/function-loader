@@ -47,9 +47,8 @@ try
 
     // get procedures at runtime from the shared library
     // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory
-    const auto func_simple = loader.get_function<void()>("function_with_no_params");
-    const auto func_more_complex = loader.get_function<int(float, const char *)>
-                                       ("function_with_return_value_and_params");
+    const auto func_simple = loader.get_function<void()>("foo");
+    const auto func_more_complex = loader.get_function<int(float, const char *)>("bar");
 
     // don't have to check for call-ability, otherwise the "function_does_not_exist" would be thrown
     func_simple();
@@ -76,8 +75,8 @@ extern "C"
 /// When using function_loader, we don't need to import any symbols (e.g. "__declspec(dllimport)"),
 /// because there's no static linking.
 
-LIBRARY_EXPORT void function_with_no_params();
-LIBRARY_EXPORT int function_with_return_value_and_params(float number, const char * str);
+LIBRARY_EXPORT void foo();
+LIBRARY_EXPORT int bar(float number, const char * str);
 }
 ```
 
