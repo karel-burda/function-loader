@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-project(function-loader VERSION 1.1.0 LANGUAGES CXX)
+project(function-loader VERSION 1.1.1 LANGUAGES CXX)
 
 include("cmake-helpers/cmake-helpers/messages.cmake")
 include("cmake-helpers/cmake-helpers/standard-settings.cmake")
