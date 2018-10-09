@@ -47,6 +47,8 @@ if (EXAMPLE OR UNIT-TESTS)
     endif()
     
     if (UNIT-TESTS)
+        # test-utils are being used as a git sub-module
+        set(USED-AS-SUBMODULE ON BOOL)
         add_subdirectory(test-utils)
 
         add_subdirectory(tests/unit)
