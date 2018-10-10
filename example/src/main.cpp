@@ -29,7 +29,12 @@ static int show_usage()
         func_void_no_params();
         std::clog << "func_with_return_value_and_params returned " << func_with_return_value_and_params(99.0, "foo");
 
-        // "loader" object will go out of scope, thus it's going to free all resources and unloads the library handle
+        // of the "loader" object went out of scope in here, it would free all resources and unload the library handle,
+        // but for demo purposes, we'll move the instance
+        const auto another_loader = std::move(loader);
+        // do whatever actions you like with the "another_loader"
+
+        // the "another_loader" goes out of scope
     }
     catch (const function_loader::exceptions::library_load_failed & error)
     {
