@@ -1,14 +1,18 @@
 #pragma once
 
+#include <utility>
+
 #include "function_loader/exceptions.hpp"
 #include "function_loader/detail/library_loader_base.hpp"
+#include "function_loader/detail/cpp_utils/primitives/idisable_copy.hpp"
 
 namespace burda
 {
 namespace function_loader
 {
 namespace detail {
-class library_loader : public detail::library_loader_base
+class library_loader : public detail::library_loader_base,
+                       private burda::cpp_utils::primitives::idisable_copy
 {
 public:
     explicit library_loader(const std::string & path)
@@ -24,6 +28,23 @@ public:
     ~library_loader()
     {
         unload_library();
+    }
+
+    library_loader(library_loader && source)
+    {
+        handle = source.handle;
+        source.handle = nullptr;
+    }
+
+    library_loader & operator=(library_loader && source)
+    {
+        if (this != &source)
+        {
+            unload_library();
+            std::swap(handle, source.handle);
+        }
+
+        return *this;
     }
 };
 }

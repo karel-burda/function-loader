@@ -34,12 +34,13 @@ protected:
         }
     }
 
-    char * get_last_error()
+    std::string get_last_error() const
     {
-        return dlerror();
+        const auto error_from_os = dlerror();
+
+        return error_from_os != nullptr ? error_from_os : "";
     }
 
-private:
     void * handle = nullptr;
 };
 }

@@ -6,6 +6,7 @@
 
 #include <gtest/gtest.h>
 
+#include <test_utils/make_all_members_public.hpp>
 #include <function_loader/exceptions.hpp>
 #include <function_loader/detail/library_loader.hpp>
 #include <test_utils/static_class_assertions.hpp>
@@ -25,7 +26,7 @@ using library_loader = function_loader::detail::library_loader;
 TEST(library_loader, static_assertions)
 {
     test_utils::assert_default_constructibility<library_loader, false>();
-    test_utils::assert_copy_constructibility<library_loader, true>();
+    test_utils::assert_copy_constructibility<library_loader, false>();
     test_utils::assert_move_constructibility<library_loader, true>();
 }
 
@@ -36,6 +37,23 @@ TEST(library_loader, construction_destruction)
     EXPECT_NO_THROW(library_loader{ testing::get_demo_library_file_path() });
     EXPECT_NO_THROW(library_loader{ "./subdirectory/another/demo-library.dll" });
     EXPECT_THROW(library_loader{ "./subdirectory/another/a/b/c/d/demo-library.dll" }, exceptions::library_load_failed);
+}
+
+TEST(library_loader, move_operations)
+{
+    library_loader first_loader{ testing::get_demo_library_file_path() };
+    library_loader second_loader{ "./subdirectory/another/demo-library.dll" };
+
+    ASSERT_NE(first_loader.get_handle(), nullptr);
+    ASSERT_NE(second_loader.get_handle(), nullptr);
+
+    second_loader = std::move(first_loader);
+    EXPECT_EQ(first_loader.get_handle(), nullptr);
+    EXPECT_NE(second_loader.get_handle(), nullptr);
+
+    const auto third_loader{ std::move(second_loader) };
+    EXPECT_EQ(second_loader.get_handle(), nullptr);
+    EXPECT_NE(third_loader.get_handle(), nullptr);
 }
 
 TEST(library_loader, default_values)
@@ -76,5 +94,11 @@ TEST(library_loader, exceptions)
     {
         FAIL() << "Correct exception not thrown";
     }
+}
+
+TEST(library_loader, get_last_error)
+{
+    library_loader loader{ testing::get_demo_library_file_path() };
+    EXPECT_TRUE(loader.get_last_error().empty());
 }
 }

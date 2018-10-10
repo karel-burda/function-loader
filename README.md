@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-1.1.1-green.svg)
+![Version](https://img.shields.io/badge/version-1.1.2-green.svg)
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/karel-burda/function-loader.svg?branch=master)](https://travis-ci.org/karel-burda/function-loader)
 [![Coverage Status](https://coveralls.io/repos/github/karel-burda/function-loader/badge.svg?branch=master)](https://coveralls.io/github/karel-burda/function-loader?branch=master)
@@ -15,7 +15,7 @@ with `--recurse-submodules` or `--recursive` on older versions of git. Alternati
 
 Essentially provides wrapper around the calls `LoadLibrary`, `GetProcedure` and `FreeLibrary` system calls on Windows and `dlopen`, `dlsym` and `dlclose` on POSIXes.
 
-Implemented using C++11.
+`function_loader` class supports move semantics and disables copy operations; implementation is in C++11.
 
 These exceptions might be thrown:
 * `library_load_failed`
@@ -44,6 +44,7 @@ try
 {
     // or load DLL on Windows, or .dylib on OS X
     function_loader::function_loader loader{ "./shared-library.so" };
+    // function_loader supports move semantics, so we can safely do e.g. "const auto other = std::move(loader)"
 
     // get procedures at runtime from the shared library
     // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory
@@ -54,7 +55,12 @@ try
     func_simple();
     std::clog << "func_more_complex returned " << func_more_complex(99.0, "foo");
 
-    // "loader" object will go out of scope, thus it's going to free all resources and unloads the library handle
+    // if the "loader" object went out of scope in here, it would free all resources and unload the library handle,
+    // but for demo purposes, we'll move the instance
+    const auto another_loader = std::move(loader);
+    // do whatever actions you like with the "another_loader"
+
+    // the "another_loader" goes out of scope
 }
 catch (const function_loader::exceptions::library_load_failed & error)
 {

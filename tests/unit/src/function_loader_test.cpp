@@ -19,7 +19,7 @@ using function_loader = burda::function_loader::function_loader;
 TEST(function_loader, static_assertions)
 {
     test_utils::assert_default_constructibility<function_loader, false>();
-    test_utils::assert_copy_constructibility<function_loader, true>();
+    test_utils::assert_copy_constructibility<function_loader, false>();
     test_utils::assert_move_constructibility<function_loader, true>();
 }
 
