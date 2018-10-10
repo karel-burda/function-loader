@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-1.1.1-green.svg)
+![Version](https://img.shields.io/badge/version-1.1.2-green.svg)
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/karel-burda/function-loader.svg?branch=develop)](https://travis-ci.org/karel-burda/function-loader)
 [![Coverage Status](https://coveralls.io/repos/github/karel-burda/function-loader/badge.svg?branch=develop)](https://coveralls.io/github/karel-burda/function-loader?branch=develop)
@@ -15,7 +15,7 @@ with `--recurse-submodules` or `--recursive` on older versions of git. Alternati
 
 Essentially provides wrapper around the calls `LoadLibrary`, `GetProcedure` and `FreeLibrary` system calls on Windows and `dlopen`, `dlsym` and `dlclose` on POSIXes.
 
-Implemented using C++11.
+Classes support move semantics; implementation is in C++11.
 
 These exceptions might be thrown:
 * `library_load_failed`
@@ -44,6 +44,7 @@ try
 {
     // or load DLL on Windows, or .dylib on OS X
     function_loader::function_loader loader{ "./shared-library.so" };
+    // function_loader supports move semantics, so we can safely do e.g. "const auto other = std::move(loader)"
 
     // get procedures at runtime from the shared library
     // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory

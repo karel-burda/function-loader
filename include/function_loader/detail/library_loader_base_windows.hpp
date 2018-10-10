@@ -34,17 +34,14 @@ protected:
         }
     }
 
-    const char * get_last_error()
+    std::string get_last_error() const
     {
-        last_error = std::to_string(GetLastError());
+        const auto error_code_from_os = GetLastError();
 
-        return last_error.c_str();
+        return error_code_from_os != 0 ? std::to_string(error_code_from_os) : "";
     }
 
     HMODULE handle = nullptr;
-
-private:
-    std::string last_error;
 };
 }
 }

@@ -18,6 +18,7 @@ static int show_usage()
     try
     {
         function_loader::function_loader loader{ "./demo-library.dll" };
+        // function_loader supports move semantics, so we can safely do e.g. "const auto other = std::move(loader)"
 
         // get procedures at runtime from the shared library
         // see "demo-library.hpp" and "demo-library.cpp" in the "demo-library" directory

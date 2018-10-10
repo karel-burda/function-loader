@@ -34,12 +34,11 @@ protected:
         }
     }
 
-    char * get_last_error()
+    std::string get_last_error() const
     {
-        return dlerror();
+        return std::to_string(dlerror());
     }
 
-private:
     void * handle = nullptr;
 };
 }
