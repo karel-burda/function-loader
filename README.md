@@ -55,7 +55,12 @@ try
     func_simple();
     std::clog << "func_more_complex returned " << func_more_complex(99.0, "foo");
 
-    // "loader" object will go out of scope, thus it's going to free all resources and unloads the library handle
+    // if the "loader" object went out of scope in here, it would free all resources and unload the library handle,
+    // but for demo purposes, we'll move the instance
+    const auto another_loader = std::move(loader);
+    // do whatever actions you like with the "another_loader"
+
+    // the "another_loader" goes out of scope
 }
 catch (const function_loader::exceptions::library_load_failed & error)
 {
