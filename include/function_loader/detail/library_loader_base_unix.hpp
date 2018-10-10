@@ -36,7 +36,7 @@ protected:
 
     std::string get_last_error() const
     {
-        return std::to_string(dlerror());
+        return dlerror();
     }
 
     void * handle = nullptr;
