@@ -15,7 +15,7 @@ with `--recurse-submodules` or `--recursive` on older versions of git. Alternati
 
 Essentially provides wrapper around the calls `LoadLibrary`, `GetProcedure` and `FreeLibrary` system calls on Windows and `dlopen`, `dlsym` and `dlclose` on POSIXes.
 
-Classes support move semantics; implementation is in C++11.
+`function_loader` class supports move semantics and disables copy operations; implementation is in C++11.
 
 These exceptions might be thrown:
 * `library_load_failed`
