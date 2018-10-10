@@ -51,7 +51,9 @@ TEST(library_loader, move_operations)
     EXPECT_EQ(first_loader.get_handle(), nullptr);
     EXPECT_NE(second_loader.get_handle(), nullptr);
 
-    // TODO: test get_last_error() after moving
+    const auto third_loader{ std::move(second_loader) };
+    EXPECT_EQ(second_loader.get_handle(), nullptr);
+    EXPECT_NE(third_loader.get_handle(), nullptr);
 }
 
 TEST(library_loader, default_values)
