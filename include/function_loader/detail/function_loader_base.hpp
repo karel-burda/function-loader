@@ -1,9 +1,26 @@
 #pragma once
 
-#ifdef _WIN32
-#include "function_loader/detail/function_loader_base_windows.hpp"
-#elif __linux__
-#include "function_loader/detail/function_loader_base_unix.hpp"
-#else
-#error Platform not implemented
-#endif
+#include <string>
+
+#include "function_loader/detail/library_loader.hpp"
+
+namespace burda
+{
+namespace function_loader
+{
+namespace detail
+{
+class function_loader_base
+{
+public:
+    function_loader_base(const std::string & library_path)
+        : library{library_path}
+    {
+    }
+
+protected:
+    library_loader library;
+};
+}
+}
+}

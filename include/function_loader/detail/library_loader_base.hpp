@@ -20,8 +20,7 @@ public:
         return handle;
     }
 
-protected:
-    void throw_if_handle_is_invalid()
+    void throw_if_handle_is_invalid() const
     {
         if (handle == nullptr)
         {
@@ -29,6 +28,7 @@ protected:
         }
     }
 
+protected:
     handle_type handle = nullptr;
 };
 }
