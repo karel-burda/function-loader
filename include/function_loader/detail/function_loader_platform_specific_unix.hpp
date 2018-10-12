@@ -22,7 +22,7 @@ protected:
     {
         library.throw_if_handle_is_invalid();
 
-        return dlsym(handle, function_name.c_str());
+        return dlsym(library.get_handle(), function_name.c_str());
     }
 };
 }
