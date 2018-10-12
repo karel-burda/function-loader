@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
-
 #include <windows.h>
+
+#include "function_loader/detail/library_loader_base.hpp"
 
 namespace burda
 {
@@ -10,14 +10,8 @@ namespace function_loader
 {
 namespace detail
 {
-class library_loader_base
+class library_loader_platform_specific : public library_loader_base<HMODULE>
 {
-public:
-    HMODULE get_handle() const
-    {
-        return handle;
-    }
-
 protected:
     void load_library(const std::string & path)
     {
@@ -26,7 +20,7 @@ protected:
 
     void unload_library()
     {
-        if (handle)
+        if (handle != nullptr)
         {
             FreeLibrary(handle);
 
@@ -40,8 +34,6 @@ protected:
 
         return error_code_from_os != 0 ? std::to_string(error_code_from_os) : "";
     }
-
-    HMODULE handle = nullptr;
 };
 }
 }

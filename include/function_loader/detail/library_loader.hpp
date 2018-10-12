@@ -3,16 +3,14 @@
 #include <utility>
 
 #include "function_loader/exceptions.hpp"
-#include "function_loader/detail/library_loader_base.hpp"
-#include "function_loader/detail/cpp_utils/primitives/idisable_copy.hpp"
+#include "function_loader/detail/library_loader_platform_specific.hpp"
 
 namespace burda
 {
 namespace function_loader
 {
 namespace detail {
-class library_loader : public detail::library_loader_base,
-                       private burda::cpp_utils::primitives::idisable_copy
+class library_loader : public detail::library_loader_platform_specific
 {
 public:
     explicit library_loader(const std::string & path)

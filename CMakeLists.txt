@@ -27,8 +27,9 @@ set(HEADERS
 
     include/function_loader/detail/library_loader.hpp
     include/function_loader/detail/library_loader_base.hpp
-    $<$<PLATFORM_ID:Windows>:include/function_loader/detail/library_loader_base_windows.hpp>
-    $<$<PLATFORM_ID:Unix>:include/function_loader/detail/library_loader_base_unix.hpp>)
+    include/function_loader/detail/library_loader_platform_specific.hpp
+    $<$<PLATFORM_ID:Windows>:include/function_loader/detail/library_loader_platform_specific_windows.hpp>
+    $<$<PLATFORM_ID:Unix>:include/function_loader/detail/library_loader_platform_specific_unix.hpp>)
 
 set(OTHER
     README.md

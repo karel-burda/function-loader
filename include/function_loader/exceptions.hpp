@@ -16,6 +16,14 @@ struct library_load_failed : public std::runtime_error
     }
 };
 
+struct library_handle_invalid : public std::runtime_error
+{
+    explicit library_handle_invalid()
+        : std::runtime_error{ "Library handle is invalid (might be caused by using instance after is has been moved)" }
+    {
+    }
+};
+
 struct function_does_not_exist : public std::logic_error
 {
     explicit function_does_not_exist(const std::string & name)

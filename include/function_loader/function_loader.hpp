@@ -29,7 +29,7 @@ public:
     /// @returns std::function that binds to the found function in a shared library
     /// @throws function_does_not_exist
     template<typename function_type>
-    std::function<function_type> get_function(const std::string & procedure_name)
+    std::function<function_type> get_function(const std::string & procedure_name) const
     {
         void * procedure_address = get_function_address(library.get_handle(), procedure_name.c_str());
 

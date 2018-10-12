@@ -30,6 +30,21 @@ TEST(function_loader, construction_destruction)
     EXPECT_NO_THROW(function_loader{ "./subdirectory/another/demo-library.dll" });
 }
 
+TEST(function_loader, move_operations)
+{
+    function_loader first_loader{ testing::get_demo_library_file_path() };
+
+    ASSERT_NE(first_loader.library.get_handle(), nullptr);
+
+    const auto second_loader = std::move(first_loader);
+
+    ASSERT_EQ(first_loader.library.get_handle(), nullptr);
+    ASSERT_NE(second_loader.library.get_handle(), nullptr);
+
+    EXPECT_THROW(first_loader.get_function<void()>("function_with_no_params")(), exceptions::library_handle_invalid);
+    EXPECT_NO_THROW(second_loader.get_function<void()>("function_with_no_params")());
+}
+
 TEST(function_loader, default_values)
 {
     function_loader loader{ testing::get_demo_library_file_path() };

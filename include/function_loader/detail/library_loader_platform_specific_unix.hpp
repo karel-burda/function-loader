@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include <dlfcn.h>
 
 namespace burda
@@ -10,14 +8,8 @@ namespace function_loader
 {
 namespace detail
 {
-class library_loader_base
+class library_loader_base : public library_loader_base<void *>
 {
-public:
-    void * get_handle() const
-    {
-        return handle;
-    }
-
 protected:
     void load_library(const std::string & path)
     {
@@ -40,8 +32,6 @@ protected:
 
         return error_from_os != nullptr ? error_from_os : "";
     }
-
-    void * handle = nullptr;
 };
 }
 }
