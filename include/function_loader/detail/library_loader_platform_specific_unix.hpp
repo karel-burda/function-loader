@@ -2,13 +2,15 @@
 
 #include <dlfcn.h>
 
+#include "function_loader/detail/library_loader_base.hpp"
+
 namespace burda
 {
 namespace function_loader
 {
 namespace detail
 {
-class library_loader_base : public library_loader_base<void *>
+class library_loader_platform_specific : public library_loader_base<void *>
 {
 protected:
     void load_library(const std::string & path)
