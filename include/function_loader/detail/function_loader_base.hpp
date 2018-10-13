@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 #include "function_loader/detail/library_loader.hpp"
 
 namespace burda
