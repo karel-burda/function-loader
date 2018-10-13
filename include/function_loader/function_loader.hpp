@@ -28,7 +28,7 @@ public:
     template<typename function_type>
     std::function<function_type> get_function(const std::string & procedure_name) const
     {
-        void * procedure_address = get_function_address(procedure_name.c_str());
+        void * procedure_address = get_function_address(procedure_name);
 
         if (procedure_address == nullptr)
         {
