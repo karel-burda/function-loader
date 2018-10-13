@@ -70,11 +70,13 @@ catch (const function_loader::exceptions::library_load_failed & error)
 }
 catch (const function_loader::exceptions::library_handle_invalid & error)
 {
-    // happens when "get_function" called on the function_loader with invalid library handle (may happen after the object was moved)
+    // happens when "get_function" called on the function_loader with invalid library handle
+    // (may happen after the object was moved)
 }
 catch (const function_loader::exceptions::function_does_not_exist & error)
 {
-    // given function not found in the library, might be caused by incorrect signature, or function is not exported (visible) from outside
+    // given function not found in the library, might be caused by incorrect signature,
+    // or function is not exported (visible) from outside
 }
 ```
 
