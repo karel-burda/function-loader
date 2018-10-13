@@ -14,7 +14,7 @@ class function_loader : public detail::function_loader_platform_specific
 {
 public:
     /// Loads library handle as part of the construction
-    /// Usage:library_loader{"./foo/bar/library.so"}
+    /// Usage:library_loader{"./foo/bar/library.(so|dll|dylib)"}
     /// @param library_path might be either absolute or relative to the working directory
     /// @see "LoadLibrary" from the Windows API or "dlopen" on POSIXes for explanation of the path argument
     /// @see "library_lodader_base"
