@@ -19,6 +19,7 @@ Essentially provides wrapper around the calls `LoadLibrary`, `GetProcedure` and 
 
 These exceptions might be thrown:
 * `library_load_failed`
+* `library_handle_invalid`
 * `function_does_not_exist`
 
 Exceptions provide additional information about the reason using `what()`,  see [exceptions.hpp](include/function_loader/exceptions.hpp) for more info.
@@ -64,11 +65,16 @@ try
 }
 catch (const function_loader::exceptions::library_load_failed & error)
 {
-    // handle exception, error.what() contains information about the error from the OS
+    // handle exception, error.what() contains information about the error code from the OS
+    // library load failed upon construction of the function_loader
+}
+catch (const function_loader::exceptions::library_handle_invalid & error)
+{
+    // happens when "get_function" called on the function_loader with invalid library handle (may happen after the object was moved)
 }
 catch (const function_loader::exceptions::function_does_not_exist & error)
 {
-    // handle exception, error.what() contains information about the error from the OS
+    // given function not found in the library, might be caused by incorrect signature, or function is not exported (visible) from outside
 }
 ```
 

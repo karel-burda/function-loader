@@ -38,10 +38,17 @@ static int show_usage()
     }
     catch (const function_loader::exceptions::library_load_failed & error)
     {
+        // library load failed upon construction of the function_loader
+        return print_error_and_exit(error);
+    }
+    catch (const function_loader::exceptions::library_handle_invalid & error)
+    {
+        // happens when "get_function" called on the function_loader with invalid library handle (may happen after the object was moved)
         return print_error_and_exit(error);
     }
     catch (const function_loader::exceptions::function_does_not_exist & error)
     {
+        // given function not found in the library, might be caused by incorrect signature, or function is not exported (visible) from outside
         return print_error_and_exit(error);
     }
 
