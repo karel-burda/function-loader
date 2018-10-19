@@ -33,7 +33,7 @@ jobs:
          - valgrind --leak-check=full --error-exitcode=255 -v ./example
          - popd
 
-         - cmake --build build --target run-all-tests-verbose --config RelWithDebInfo
+         - cmake --build build --target run-all-tests-verbose --config RelWithDebInfo -- -j $(nproc)
          - coveralls -e ./build/gtest-src -e build/demo-library -e ./build/CMakeFiles -e ./tests/unit -e ./example -e cmake-helpers -e demo-library -e test-utils --gcov-options '\-lp'
 
          - set +e
