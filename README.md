@@ -56,8 +56,8 @@ try
     func_simple();
     std::clog << "func_more_complex returned " << func_more_complex(99.0, "foo");
 
-    // if the "loader" object went out of scope in here, it would free all resources and unload the library handle,
-    // but for demo purposes, we'll move the instance
+    // if the "loader" object went out of scope in here, it would free all resources and unload
+    // the library handle, but for demo purposes, we'll move the instance
     const auto another_loader = std::move(loader);
     // do whatever actions you like with the "another_loader"
 
@@ -84,8 +84,8 @@ Where this is the header of the `shared-library.(so|dll|dylib)`:
 ```cpp
 extern "C"
 {
-/// LIBRARY_EXPORT is defined elsewhere, but we just need the symbols to be visible from outside the shared libary
-/// (e.g. using "__declspec(dllexport)" or "__attribute__((visibility("default")))" on the GCC).
+/// LIBRARY_EXPORT is defined elsewhere, but we just need the symbols to be visible from outside
+/// the shared libary (e.g. using "__declspec(dllexport)" or "__attribute__((visibility("default")))" on the GCC).
 /// When using function_loader, we don't need to import any symbols (e.g. "__declspec(dllimport)"),
 /// because there's no static linking.
 
