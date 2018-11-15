@@ -9,8 +9,8 @@
 #include <test_utils/make_all_members_public.hpp>
 #include <function_loader/exceptions.hpp>
 #include <function_loader/detail/library_loader.hpp>
+#include <test_utils/lifetime_assertions.hpp>
 #include <test_utils/static_class_assertions.hpp>
-#include <test_utils/test_utils.hpp>
 
 #include "helpers.hpp"
 
