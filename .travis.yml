@@ -1,12 +1,17 @@
 stages:
-  - example and tests (C++14) -- cppcheck, build (linux, gcc5), valgrind, tests
+  - cpp-utils, tests -- linux, debug, gcc, cppcheck, coverage
+  - cpp-utils, tests -- osx, release with debug info, clang
+
+git:
+  depth: 1
 
 jobs:
   include:
-     - stage: example and tests (C++14) -- cppcheck, build (linux, gcc5), valgrind, tests
+     - stage: cpp-utils, tests -- linux, debug, gcc, cppcheck, coverage
        sudo: required
        dist: trusty
        language: cpp
+       env: BUILD_TYPE="Debug"
        compiler: g++
        os: linux
        addons:
@@ -14,26 +19,51 @@ jobs:
            sources:
              - ubuntu-toolchain-r-test
            packages:
-             - g++-5
-             - valgrind
+             - g++-6
              - cppcheck
        before_install:
          - pip install --user cpp-coveralls
-       install: export CXX="g++-5"
+       install: export CXX="g++-6"
        script:
          - set -e
 
-         - cmake -Bbuild -H. -DEXAMPLE:BOOL=ON -DUNIT-TESTS:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo -DCOVERAGE:BOOL=ON
+         - cppcheck --enable=all
+                    -I include
+                    --language=c++
+                    --platform=unix64
+                    --std=c++11
+                    --check-config
+                    --suppress=missingIncludeSystem
+                    -v ./tests
 
-         - cppcheck --enable=all -I include -I test-utils/include -I tests/unit/include --language=c++ --platform=unix64 --std=c++11 --check-config --suppress=missingIncludeSystem -v ./example ./tests
+         - cmake -Bbuild -H. -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake -Bbuild/tests/unit -Htests/unit
+                 -Dfunction_loader_DIR:PATH=$(pwd)/build
+                 -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
+                 -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+                 -DCOVERAGE:BOOL=ON
+         - cmake --build build/tests/unit --target run-all-tests-verbose --config $BUILD_TYPE
 
-         - cmake --build build --target example --config RelWithDebInfo -- -j $(nproc)
+         - bash <(curl -s https://codecov.io/bash)
 
-         - pushd ./build/bin/
-         - valgrind --leak-check=full --error-exitcode=255 -v ./example
-         - popd
+         - set +e
 
-         - cmake --build build --target run-all-tests-verbose --config RelWithDebInfo -- -j $(nproc)
-         - coveralls -e ./build/gtest-src -e build/demo-library -e ./build/CMakeFiles -e ./tests/unit -e ./example -e cmake-helpers -e demo-library -e test-utils --gcov-options '\-lp'
+     - stage: cpp-utils, tests -- osx, release with debug info, clang
+       os: osx
+       language: cpp
+       env: BUILD_TYPE="RelWithDebInfo"
+       compiler: clang
+       script:
+         - set -e
+
+         - cmake -Bbuild -H. -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake -Bbuild/tests/unit -Htests/unit
+                 -Dfunction_loader_DIR:PATH=$(pwd)/build
+                 -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
+                 -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+                 -DCOVERAGE:BOOL=ON
+         - cmake --build build/tests/unit --target run-all-tests-verbose --config $BUILD_TYPE
 
          - set +e
