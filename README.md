@@ -26,11 +26,70 @@ Exceptions provide additional information about the reason using `what()`,  see 
 
 # Usage
 In order to use the `function_loader`, it's the `include` directory that matters. Just make sure that the header search path is pointing to the [include](include) directory located in the root directory.
-On POSIXes, the `libdl` has to be linked to the final executable.
-
-You can use the provided CMake package configuration at [function-loader-config.cmake.in](function-loader-config.cmake.in).
 
 Implementation resides in the `burda::function_loader` namespace, so it might be useful to do something like `namespace fe = burda::function_loader;` in your project.
+
+There are basically these options when it comes to build system integration:
+
+## 1. CMake Way
+Recommended option.
+
+There are essentially these ways of how to use this package depending on your preferences our build architecture:
+
+### A) Generate directly
+
+Call `add_subdirectory(...)` directly in your CMakeLists.txt:
+
+```cmake
+add_executable("my-project" main.cpp)
+
+add_subdirectory(<path-to-test-utils>)
+# Example: add_subdirectory(test-utils ${CMAKE_BINARY_DIR}/test-utils)
+
+# Query of package version
+message(STATUS "Current version of test-utils is: ${test-utils_VERSION}")
+
+add_library(burda::test-utils ALIAS test-utils)
+
+# This will import search paths, compile definitions and other dependencies of the test-utils as well
+target_link_libraries("my-project" test-utils)
+# Or with private visibility: target_link_libraries("my-project" PRIVATE test-utils)
+
+```
+
+### B) Generate separately
+
+Generation phase on the test-utils is run separately, that means that you run:
+```cmake
+cmake <path-to-test-utils>
+# Example: cmake -Bbuild/test-utils -Htest-utils in the root of your project 
+```
+
+This will create automatically generated package configuration file `test-utils-config.cmake` that contains exported target and all important information.
+
+Then you can do this in your CMakeLists.txt:
+
+```cmake
+add_executable("my-project" main.cpp)
+
+find_package(test-utils CONFIG PATHS <path-to-binary-dir-of-test-utils>)
+# Alternatively assuming that the "test-utils_DIR" variable is set: find_package(test-utils CONFIG)
+
+# You can also query (or force specific version during the previous "find_package()" call)
+message(STATUS "Found version of test-utils is: ${test-utils_VERSION}")
+
+# This will import search paths, compile definitions and other dependencies of the test-utils as well
+target_link_libraries("my-project" burda::test-utils)
+# Or with public visibility: target_link_libraries("my-project" PUBLIC burda::test-utils)
+
+```
+
+## 2. Manual Way
+Not recommended.
+
+Make sure that the `include` directory is in the search paths.
+
+You also have to set C++11 standard and potentially other settings as well (e.g. linking `libdl` on POSIXes).
 
 ### Example
 ```cpp
@@ -110,30 +169,30 @@ I personally prefer to specify a separate build directory explicitly:
 You can of course specify ordinary cmake options like build type (debug, release with debug info, ...), used generator, etc.
 
 # Unit Tests
-For building tests, run cmake with the option `UNIT-TESTS=ON`:
+Tests require sub-module [cmake-helpers](https://github.com/karel-burda/cmake-helpers) and [test-utils](https://github.com/karel-burda/test-utils).
 
-`cmake -Bbuild -H. -DUNIT-TESTS:BOOL=ON`
+For building tests, run CMake in the source directory [tests/unit](tests/unit):
 
-The project is using the `gtest` that is automatically downloaded, "cmaked" and built in its build step
-(the fixed stable revision of the `gtest` is used).
+```cmake
+cmake -Bbuild -H.
+# You can also add coverage by appending "-DCOVERAGE:BOOL=ON"
+cmake -Bbuild/tests/unit -Htests/unit -Dcpp-utils_DIR:PATH=$(pwd)/build -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+cmake --build build/tests/unit --config RelWithDebInfo
+# This runs target "run-all-tests-verbose" that will also run the tests with timeout, etc.:
+cmake --build build/tests/unit --target run-all-tests-verbose --config RelWithDebInfo
+# Or you can execute tests manually
+```
 
-Then, you can run the default test target (e.g. `make test` or `RUN_TESTS` in the Visual Studio)
-or the custom target `run-all-tests-verbose` (which is recommended and used in the Continuous Integration).
-
-The target `run-all-tests-verbose` uses the `ctest` for executing the tests binary and has built-in timeout feature (useful because of dead-locks for example).
-
-If you want to debug tests and implementation, run the target `tests` target manually (ideally in the Debug mode).
-
-It is also possible to turn off build of the example, and build just the tests:
-
-`cmake -Bbuild -H. -DEXAMPLE:BOOL=OFF -DUNIT-TESTS:BOOL=ON`
+For more info, see [.travis.yml](.travis.yml).
 
 # Continuous Integration
-Continuous Integration is now being run Linux (with GCC 5.x) on Travis: https://travis-ci.org/karel-burda/function-loader.
+Continuous Integration is now being run Linux (with GCC 6.x) and OS X on Travis: https://travis-ci.org/karel-burda/cpp-utils.
 
-Compilers are set-up to treat warnings as errors and with pedantic warning level. Targets are built in a release mode with debug symbols (because of the [valgrind](http://valgrind.org) and code coverage measure).
+Compilers are set-up to treat warnings as errors and with pedantic warning level.
+Targets are built debug symbols with code coverage measure and release with debug symbols).
 
-The project is using just one stage (because of the overhead of spawning other stages)
-* `example and tests (C++14)` -- cppcheck, build (linux, gcc5), valgrind, tests
+The project is using thse stages:
+* `cpp-utils, tests -- linux, debug, gcc, cppcheck, coverage`
+* `cpp-utils, tests -- osx, release with debug info, clang`
 
-Project uses [coveralls.io](https://coveralls.io/github/karel-burda/function-loader) for code coverage summary and [codacy](https://app.codacy.com/app/karel-burda/function-loader/dashboard) for the coding style and additional static analysis.
+Project uses [codecov.io](https://codecov.io/gh/karel-burda/cpp-utils) for code coverage summary.

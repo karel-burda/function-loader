@@ -1,58 +1,40 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-project(function-loader VERSION 1.2.0 LANGUAGES CXX)
+project(function-loader VERSION 1.2.1 LANGUAGES CXX)
 
-include("cmake-helpers/cmake-helpers/messages.cmake")
-include("cmake-helpers/cmake-helpers/standard-settings.cmake")
-include("cmake-helpers/cmake-helpers/warnings.cmake")
+add_library(${PROJECT_NAME} INTERFACE)
 
-option(EXAMPLE "Build example usage" ON)
-option(UNIT-TESTS "Build unit tests" OFF)
+target_sources(${PROJECT_NAME}
+                   INTERFACE
+                       include/function_loader/function_loader.hpp
+                       include/function_loader/exceptions.hpp
 
-_print_project_version()
+                       include/function_loader/detail/function_loader_base.hpp
+                       include/function_loader/detail/function_loader_platform_specific.hpp
+                       $<$<PLATFORM_ID:Windows>:include/function_loader/detail/function_loader_platform_specific_windows.hpp>
+                       $<$<PLATFORM_ID:Unix>:include/function_loader/detail/function_loader_platform_specific_unix.hpp>
 
-_set_standards("11" "14")
-_set_default_build_type("Debug")
+                       include/function_loader/detail/library_loader.hpp
+                       include/function_loader/detail/library_loader_base.hpp
+                       include/function_loader/detail/library_loader_platform_specific.hpp
+                       $<$<PLATFORM_ID:Windows>:include/function_loader/detail/library_loader_platform_specific_windows.hpp>
+                       $<$<PLATFORM_ID:Unix>:include/function_loader/detail/library_loader_platform_specific_unix.hpp>)
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+target_include_directories(${PROJECT_NAME}
+                                INTERFACE
+                                    ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-set(HEADERS
-    include/function_loader/function_loader.hpp
-    include/function_loader/exceptions.hpp
+target_compile_features(${PROJECT_NAME}
+                            INTERFACE
+                                cxx_std_11)
 
-    include/function_loader/detail/function_loader_base.hpp
-    include/function_loader/detail/function_loader_platform_specific.hpp
-    $<$<PLATFORM_ID:Windows>:include/function_loader/detail/function_loader_platform_specific_windows.hpp>
-    $<$<PLATFORM_ID:Unix>:include/function_loader/detail/function_loader_platform_specific_unix.hpp>
+install(TARGETS ${PROJECT_NAME}
+        EXPORT _targets)
 
-    include/function_loader/detail/library_loader.hpp
-    include/function_loader/detail/library_loader_base.hpp
-    include/function_loader/detail/library_loader_platform_specific.hpp
-    $<$<PLATFORM_ID:Windows>:include/function_loader/detail/library_loader_platform_specific_windows.hpp>
-    $<$<PLATFORM_ID:Unix>:include/function_loader/detail/library_loader_platform_specific_unix.hpp>)
+export(EXPORT _targets
+        NAMESPACE burda::
+        FILE "${PROJECT_NAME}-config.cmake")
 
-set(OTHER
-    README.md
-    .travis.yml
-    ${PROJECT_NAME}-config.cmake.in)
-
-add_custom_target(${PROJECT_NAME} SOURCES ${HEADERS} ${OTHER})
-
-configure_file(${PROJECT_NAME}-config.cmake.in "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake" @ONLY)
-
-if (EXAMPLE OR UNIT-TESTS)
-    add_subdirectory(demo-library)
-
-    if (EXAMPLE)
-        add_subdirectory(example)
-    endif()
-    
-    if (UNIT-TESTS)
-        # test-utils are being used as a git sub-module
-        set(USED-AS-SUBMODULE ON BOOL)
-        add_subdirectory(test-utils)
-
-        add_subdirectory(tests/unit)
-    endif()
-endif()
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake
+                                 COMPATIBILITY ExactVersion)
