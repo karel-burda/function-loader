@@ -1,6 +1,6 @@
 stages:
-  - cpp-utils, tests -- linux, debug, gcc, cppcheck, coverage
-  - cpp-utils, tests -- osx, release with debug info, clang
+  - function-loader, example, tests -- linux, debug, gcc, cppcheck, coverage
+  - function-loader, example, tests -- osx, release with debug info, valgrind, clang
 
 git:
   depth: 1
@@ -39,7 +39,7 @@ jobs:
          - cmake -Bbuild -H. -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake -Bbuild/tests/unit -Htests/unit
-                 -Dfunction_loader_DIR:PATH=$(pwd)/build
+                 -Dfunction-loader_DIR:PATH=$(pwd)/build
                  -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
                  -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
                  -DCOVERAGE:BOOL=ON
@@ -54,13 +54,15 @@ jobs:
        language: cpp
        env: BUILD_TYPE="RelWithDebInfo"
        compiler: clang
+       before_install:
+         - brew install valgrind
        script:
          - set -e
 
          - cmake -Bbuild -H. -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake -Bbuild/tests/unit -Htests/unit
-                 -Dfunction_loader_DIR:PATH=$(pwd)/build
+                 -Dfunction-loader_DIR:PATH=$(pwd)/build
                  -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
                  -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
                  -DCOVERAGE:BOOL=ON
