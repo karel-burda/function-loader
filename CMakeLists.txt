@@ -28,9 +28,12 @@ target_include_directories(${PROJECT_NAME}
                                 INTERFACE
                                     ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_link_libraries(${PROJECT_NAME}
-                          INTERFACE
-                              $<$<PLATFORM_ID:Unix>:${CMAKE_DL_LIBS}>)
+if (UNIX AND NOT APPLE)
+    message(STATUS "dl libs: ${CMAKE_DL_LIBS}")
+    set_target_properties(${PROJECT_NAME}
+                              PROPERTIES
+                                  INTERFACE_LINK_LIBRARIES "${CMAKE_DL_LIBS}")
+endif()
 
 target_compile_features(${PROJECT_NAME}
                             INTERFACE
