@@ -29,7 +29,7 @@ target_include_directories(${PROJECT_NAME}
                                     ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 target_link_libraries(${PROJECT_NAME}
-                          PUBLIC
+                          INTERFACE
                               $<$<PLATFORM_ID:Unix>:${CMAKE_DL_LIBS}>)
 
 target_compile_features(${PROJECT_NAME}
