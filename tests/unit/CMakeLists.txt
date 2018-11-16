@@ -37,6 +37,26 @@ if (COVERAGE)
     burda_cmake_helpers_cpp_coverage_add_build_options(${PROJECT_NAME} PRIVATE)
 endif()
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../demo-library ${CMAKE_CURRENT_BINARY_DIR}/demo-library)
+
+# We deliberately copy the testing library into a subdirectories in order to test whether loading of library from more subdirectories work
+get_target_property(_demo-library_prefix demo-library PREFIX)
+get_target_property(_demo-library_suffix demo-library SUFFIX)
+set(_demo-library_location ${CMAKE_CURRENT_BINARY_DIR}/demo-library)
+set(_demo-library_filename ${_demo-library_prefix}demo-library${_demo-library_suffix})
+if (MSVC)
+    string(APPEND _demo-library_location /${CMAKE_BUILD_TYPE})
+endif()
+
+add_custom_command(TARGET ${PROJECT_NAME}
+                   POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy
+                       ${_demo-library_location}/${_demo-library_filename}
+                       ${_demo-library_location}/subdirectory/another/${_demo-library_filename})
+
+# create invalid (empty) file that will be used in the tests to verify, whether the implementation correctly refuses to load this file
+#file(WRITE)
+
 enable_testing()
 
 add_test(NAME all-unit-tests

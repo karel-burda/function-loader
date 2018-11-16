@@ -74,7 +74,7 @@ TEST(library_loader, resource_deallocation)
     // error is expected, because the handle is freed
 #ifdef _WIN32
     EXPECT_EQ(FreeLibrary(handle), 0);
-#elif __linux__
+#elif defined(__unix__) || defined(__APPLE__)
     EXPECT_NE(dlclose(handle), 0);
 #endif
 }

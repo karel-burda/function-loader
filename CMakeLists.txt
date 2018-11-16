@@ -28,8 +28,8 @@ target_include_directories(${PROJECT_NAME}
                                 INTERFACE
                                     ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-if (UNIX AND NOT APPLE)
-    message(STATUS "dl libs: ${CMAKE_DL_LIBS}")
+if (CMAKE_DL_LIBS)
+    message(STATUS "Will add ${CMAKE_DL_LIBS}")
     set_target_properties(${PROJECT_NAME}
                               PROPERTIES
                                   INTERFACE_LINK_LIBRARIES "${CMAKE_DL_LIBS}")
