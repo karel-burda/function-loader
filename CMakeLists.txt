@@ -6,19 +6,23 @@ add_library(${PROJECT_NAME} INTERFACE)
 
 target_sources(${PROJECT_NAME}
                    INTERFACE
-                       include/function_loader/function_loader.hpp
-                       include/function_loader/exceptions.hpp
+                       ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/function_loader.hpp
+                       ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/exceptions.hpp
 
-                       include/function_loader/detail/function_loader_base.hpp
-                       include/function_loader/detail/function_loader_platform_specific.hpp
-                       $<$<PLATFORM_ID:Windows>:include/function_loader/detail/function_loader_platform_specific_windows.hpp>
-                       $<$<PLATFORM_ID:Unix>:include/function_loader/detail/function_loader_platform_specific_unix.hpp>
+                       ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/function_loader_base.hpp
+                       ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/function_loader_platform_specific.hpp
+                       $<$<PLATFORM_ID:Windows>:
+                           ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/function_loader_platform_specific_windows.hpp>
+                       $<$<PLATFORM_ID:Unix>:
+                           ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/function_loader_platform_specific_unix.hpp>
 
-                       include/function_loader/detail/library_loader.hpp
-                       include/function_loader/detail/library_loader_base.hpp
-                       include/function_loader/detail/library_loader_platform_specific.hpp
-                       $<$<PLATFORM_ID:Windows>:include/function_loader/detail/library_loader_platform_specific_windows.hpp>
-                       $<$<PLATFORM_ID:Unix>:include/function_loader/detail/library_loader_platform_specific_unix.hpp>)
+                       ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/library_loader.hpp
+                       ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/library_loader_base.hpp
+                       ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/library_loader_platform_specific.hpp
+                       $<$<PLATFORM_ID:Windows>:
+                           ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/library_loader_platform_specific_windows.hpp>
+                       $<$<PLATFORM_ID:Unix>:
+                           ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/library_loader_platform_specific_unix.hpp>)
 
 target_include_directories(${PROJECT_NAME}
                                 INTERFACE
