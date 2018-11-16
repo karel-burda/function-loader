@@ -22,6 +22,10 @@ find_package(test-utils CONFIG REQUIRED)
 message(STATUS "Found version of test-utils is: ${test-utils_VERSION}")
 target_link_libraries(${PROJECT_NAME} PRIVATE burda::test-utils)
 
+find_package(function-loader CONFIG REQUIRED)
+message(STATUS "Found version of function-loader is: ${function-loader_VERSION}")
+target_link_libraries(${PROJECT_NAME} PRIVATE burda::function-loader)
+
 burda_cmake_helpers_cpp_gtest_bootstrap_and_link(${PROJECT_NAME} "release-1.8.1" "Release" PRIVATE)
 
 if (COVERAGE)
