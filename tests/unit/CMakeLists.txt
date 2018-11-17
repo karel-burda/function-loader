@@ -38,6 +38,7 @@ if (COVERAGE)
 endif()
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../demo-library ${CMAKE_CURRENT_BINARY_DIR}/demo-library)
+add_dependencies(${PROJECT_NAME} demo-library)
 
 # We deliberately copy the testing library into a subdirectories in order to test whether loading of library from more subdirectories work
 get_target_property(_demo-library_prefix demo-library PREFIX)
@@ -52,15 +53,18 @@ add_custom_command(TARGET ${PROJECT_NAME}
                    POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy
                        ${_demo-library_location}/${_demo-library_filename}
-                       ${_demo-library_location}/subdirectory/another/${_demo-library_filename})
+                       ${CMAKE_CURRENT_BINARY_DIR}/${_demo-library_filename}
 
-# create invalid (empty) file that will be used in the tests to verify, whether the implementation correctly refuses to load this file
+                   COMMAND ${CMAKE_COMMAND} -E copy
+                       ${_demo-library_location}/${_demo-library_filename}
+                       ${CMAKE_CURRENT_BINARY_DIR}/subdirectory/another/${_demo-library_filename})
+
+# TODO: create invalid (empty) file that will be used in the tests to verify, whether the implementation correctly refuses to load this file
 #file(WRITE)
 
 enable_testing()
 
 add_test(NAME all-unit-tests
-         WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
          COMMAND $<TARGET_FILE:${PROJECT_NAME}> --gtest_color=yes --gtest_shuffle)
 
 add_custom_target(run-all-tests-verbose
