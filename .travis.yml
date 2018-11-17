@@ -59,7 +59,7 @@ jobs:
        env: BUILD_TYPE="RelWithDebInfo"
        compiler: clang
        before_install:
-         - HOMEBREW_NO_AUTO_UPDATE=1 brew install valgrind
+         - brew install valgrind
        script:
          - set -e
 
