@@ -7,7 +7,7 @@ git:
 
 jobs:
   include:
-     - stage: cpp-utils, tests -- linux, debug, gcc, cppcheck, coverage
+     - stage: function-loader, example, tests -- linux, debug, gcc, cppcheck, coverage
        sudo: required
        dist: trusty
        language: cpp
@@ -37,6 +37,10 @@ jobs:
                     -v ./tests
 
          - cmake -Bbuild -H. -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+
+         - cmake -Bbuild/example -Hexample -Dfunction-loader_DIR:PATH=$(pwd)/build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake --build build/example --config $BUILD_TYPE
+
          - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake -Bbuild/tests/unit -Htests/unit
                  -Dfunction-loader_DIR:PATH=$(pwd)/build
@@ -49,7 +53,7 @@ jobs:
 
          - set +e
 
-     - stage: cpp-utils, tests -- osx, release with debug info, clang
+     - stage: function-loader, example, tests -- osx, release with debug info, valgrind, clang
        os: osx
        language: cpp
        env: BUILD_TYPE="RelWithDebInfo"
@@ -60,6 +64,11 @@ jobs:
          - set -e
 
          - cmake -Bbuild -H. -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+
+         - cmake -Bbuild/example -Hexample -Dfunction-loader_DIR:PATH=$(pwd)/build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake --build build/example --config $BUILD_TYPE
+         - valgrind --version
+
          - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake -Bbuild/tests/unit -Htests/unit
                  -Dfunction-loader_DIR:PATH=$(pwd)/build
