@@ -4,7 +4,7 @@ project(example LANGUAGES CXX)
 
 message(STATUS "Building example")
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/../../submodules/cmake-helpers/cmake-helpers/cpp_warnings.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/../submodules/cmake-helpers/cmake-helpers/cpp_warnings.cmake)
 
 add_executable(${PROJECT_NAME} "")
 
