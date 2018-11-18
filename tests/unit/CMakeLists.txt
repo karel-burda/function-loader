@@ -43,8 +43,8 @@ add_dependencies(${PROJECT_NAME} demo-library)
 include(${CMAKE_CURRENT_SOURCE_DIR}/../../demo-library/post_build_steps.cmake)
 _burda_function_loader_demo_library_add_post_build_steps(${PROJECT_NAME})
 
-# TODO: create invalid (empty) file that will be used in the tests to verify, whether the implementation correctly refuses to load this file
-#file(WRITE)
+# Create invalid (empty) file that will be used in the tests to verify, whether the implementation correctly refuses to load this file
+file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/empty.dll "")
 
 enable_testing()
 

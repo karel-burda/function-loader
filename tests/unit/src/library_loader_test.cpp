@@ -96,6 +96,11 @@ TEST(library_loader, exceptions)
     }
 }
 
+TEST(library_loader, empty_library)
+{
+    EXPECT_THROW(library_loader{ "./empty.dll" }, exceptions::library_load_failed);
+}
+
 TEST(library_loader, get_last_error)
 {
     library_loader loader{ testing::get_demo_library_file_path() };
