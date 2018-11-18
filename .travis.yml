@@ -70,7 +70,7 @@ jobs:
          # RVM overrides these shell built-ins for Ruby, but we need to use these
          - unset -f pushd && unset -f popd
          - pushd build/example
-         - valgrind --leak-check=full --error-exitcode=255 -v ./example
+         - valgrind --error-exitcode=255 -v ./example
          - popd
 
          - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE

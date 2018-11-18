@@ -1,7 +1,7 @@
 ![Version](https://img.shields.io/badge/version-1.2.1-green.svg)
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/karel-burda/function-loader.svg?branch=develop)](https://travis-ci.org/karel-burda/function-loader)
-[![Codecov Status](https://codecov.io/gh/karel-burda/function-loader/branch/develop/graph/badge.svg)](https://codecov.io/gh/karel-burda/cmake-helpers/branch/develop)
+[![Codecov Status](https://codecov.io/gh/karel-burda/function-loader/branch/develop/graph/badge.svg)](https://codecov.io/gh/karel-burda/function-loader/branch/develop)
 
 # Important
 This project contains git sub-modules that are needed for building tests.
