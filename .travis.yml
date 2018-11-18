@@ -67,7 +67,9 @@ jobs:
 
          - cmake -Bbuild/example -Hexample -Dfunction-loader_DIR:PATH=$(pwd)/build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake --build build/example --config $BUILD_TYPE
-         - valgrind --leak-check=full --error-exitcode=255 -v ./build/example/example
+         - pushd build/example
+         - valgrind --leak-check=full --error-exitcode=255 -v ./example
+         - popd
 
          - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake -Bbuild/tests/unit -Htests/unit
