@@ -67,8 +67,8 @@ jobs:
 
          - cmake -Bbuild/example -Hexample -Dfunction-loader_DIR:PATH=$(pwd)/build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake --build build/example --config $BUILD_TYPE
-         # pushd fails for some strange reason on the OS X images on Travis
-         - unset -f pushd && unsef -f popd
+         # RVM overrides these shell built-ins for Ruby, but we need to use these
+         - unset -f pushd && unset -f popd
          - pushd build/example
          - valgrind --leak-check=full --error-exitcode=255 -v ./example
          - popd

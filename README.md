@@ -10,9 +10,9 @@ If you just want to use the implementation, you can clone without sub-modules. I
 with `--recurse-submodules` or `--recursive` on older versions of git. Alternatively, you can clone without sub-modules and initialize these later.
 
 # Introduction
-`function_loader` is a header-only library that can find free functions in a shared library and provide and `std::function<T>` wrapper around the found function.
+`function_loader` is a header-only library that can find free functions in a shared library and provides `std::function<T>` wrapper around the found function.
 
-Essentially provides wrapper around the calls `LoadLibrary`, `GetProcedure` and `FreeLibrary` system calls on Windows and `dlopen`, `dlsym` and `dlclose` on POSIXes.
+Essentially represents a wrapper around the calls `LoadLibrary`, `GetProcedure` and `FreeLibrary` system calls on Windows and `dlopen`, `dlsym` and `dlclose` on POSIXes.
 
 `function_loader` class supports move semantics and disables copy operations; implementation is in C++11.
 
@@ -155,7 +155,7 @@ LIBRARY_EXPORT int bar(float number, const char * str);
 ```
 
 # Unit Tests
-Tests require sub-module [cmake-helpers](https://github.com/karel-burda/cmake-helpers) and [test-utils](https://github.com/karel-burda/test-utils).
+Tests require sub-modules [cmake-helpers](https://github.com/karel-burda/cmake-helpers) and [test-utils](https://github.com/karel-burda/test-utils).
 
 For building tests, run CMake in the source directory [tests/unit](tests/unit):
 
@@ -163,11 +163,15 @@ For building tests, run CMake in the source directory [tests/unit](tests/unit):
 cmake -Bbuild -H.
 cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils
 # You can also add coverage by appending "-DCOVERAGE:BOOL=ON"
-cmake -Bbuild/tests/unit -Htests/unit -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
+cmake -Bbuild/tests/unit -Htests/unit
+      -Dfunction-loader_DIR:PATH=$(pwd)/build
+      -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
 cmake --build build/tests/unit
 # This runs target "run-all-tests-verbose" that will also run the tests with timeout, etc.:
-cmake --build build/tests/unit --target run-all-tests-verbose --config RelWithDebInfo
+cmake --build build/tests/unit --target run-all-tests-verbose
 ```
+
+This is the example of running tests in the debug mode.
 
 For more info, see [.travis.yml](.travis.yml).
 
@@ -175,11 +179,11 @@ For more info, see [.travis.yml](.travis.yml).
 Continuous Integration is now being run Linux (with GCC 6.x) and OS X on Travis: https://travis-ci.org/karel-burda/cpp-utils.
 
 Compilers are set-up to treat warnings as errors and with pedantic warning level.
-Targets are built debug symbols with code coverage measure and release with debug symbols).
+Targets are built in one stage with debug symbols with code coverage measure and in release mode with debug symbols in the second one.
 
 Valgrind is being run on the example as well.
 
-The project is using thse stages:
+The project is using these stages:
 * `function-loader, example, tests -- linux, debug, gcc, cppcheck, coverage`
 * `function-loader, example, tests -- osx, release with debug info, valgrind, clang`
 
