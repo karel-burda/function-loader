@@ -67,10 +67,11 @@ jobs:
 
          - cmake -Bbuild/example -Hexample -Dfunction-loader_DIR:PATH=$(pwd)/build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake --build build/example --config $BUILD_TYPE
-         # pushd fails for some strange reason on the OS X images on Traviscd
-         - cd build/example
+         # pushd fails for some strange reason on the OS X images on Travis
+         - unset -f pushd && unsef -f popd
+         - pushd build/example
          - valgrind --leak-check=full --error-exitcode=255 -v ./example
-         - cd ../..
+         - popd
 
          - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake -Bbuild/tests/unit -Htests/unit
