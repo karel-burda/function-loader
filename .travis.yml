@@ -1,19 +1,20 @@
 stages:
-  - function-loader, example, tests -- linux, debug, gcc, cppcheck, coverage
-  - function-loader, example, tests -- osx, release with debug info, valgrind, clang
+  - function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit
+  - function-loader, example, tests -- osx, release with debug info, valgrind, clang++, 64-bit
+  - function-loader, example, tests -- windows, release, msvc, 32-bit
 
 git:
   depth: 1
 
 jobs:
   include:
-     - stage: function-loader, example, tests -- linux, debug, gcc, cppcheck, coverage
-       sudo: required
-       dist: trusty
+     - stage: function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit
+       os: linux
+       dist: xenial
        language: cpp
        env: BUILD_TYPE="Debug"
        compiler: g++
-       os: linux
+       sudo: required
        addons:
          apt:
            sources:
@@ -40,6 +41,7 @@ jobs:
 
          - cmake -Bbuild/example -Hexample -Dfunction-loader_DIR:PATH=$(pwd)/build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake --build build/example --config $BUILD_TYPE
+         - ./build/example/example
 
          - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake -Bbuild/tests/unit -Htests/unit
@@ -55,6 +57,7 @@ jobs:
 
      - stage: function-loader, example, tests -- osx, release with debug info, valgrind, clang
        os: osx
+       osx_image: xcode10.1
        language: cpp
        env: BUILD_TYPE="RelWithDebInfo"
        compiler: clang
@@ -79,6 +82,29 @@ jobs:
                  -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
                  -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
                  -DCOVERAGE:BOOL=ON
+         - cmake --build build/tests/unit --target run-all-tests-verbose --config $BUILD_TYPE
+
+         - set +e
+
+     - stage: function-loader, example, tests -- windows, release, msvc, 32-bit
+       os: windows
+       language: cpp
+       env: BUILD_TYPE="Release"
+       compiler: clang
+       script:
+         - set -e
+
+         - cmake -Bbuild -H. -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+
+         - cmake -Bbuild/example -Hexample -Dfunction-loader_DIR:PATH=$(pwd)/build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake --build build/example --config $BUILD_TYPE
+         - build/example/$BUILD_TYPE/example
+
+         - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake -Bbuild/tests/unit -Htests/unit
+                 -Dfunction-loader_DIR:PATH=$(pwd)/build
+                 -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
+                 -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake --build build/tests/unit --target run-all-tests-verbose --config $BUILD_TYPE
 
          - set +e
