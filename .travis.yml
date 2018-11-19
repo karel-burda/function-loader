@@ -57,7 +57,7 @@ jobs:
 
          - set +e
 
-     - stage: function-loader, example, tests -- osx, release with debug info, valgrind, clang
+     - stage: function-loader, example, tests -- osx, release with debug info, valgrind, clang++, 64-bit
        os: osx
        osx_image: xcode10.1
        language: cpp
