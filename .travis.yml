@@ -92,7 +92,6 @@ jobs:
        os: windows
        language: cpp
        env: BUILD_TYPE="Release"
-       compiler: clang
        script:
          - set -e
 
@@ -101,8 +100,7 @@ jobs:
          - cmake -Bbuild/example -Hexample -Dfunction-loader_DIR:PATH=$(pwd)/build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
          - cmake --build build/example --config $BUILD_TYPE
          - pushd build/example/$BUILD_TYPE
-         - dir
-         - example.exe
+         - start example.exe
          - popd
 
          - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
