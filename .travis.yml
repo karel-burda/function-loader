@@ -1,39 +1,113 @@
 stages:
-  - example and tests (C++14) -- cppcheck, build (linux, gcc5), valgrind, tests
+  - function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit
+  - function-loader, example, tests -- osx, release with debug info, valgrind, clang++, 64-bit
+  - function-loader, example, tests -- windows, release, msvc, 32-bit
+
+git:
+  depth: 1
 
 jobs:
   include:
-     - stage: example and tests (C++14) -- cppcheck, build (linux, gcc5), valgrind, tests
-       sudo: required
-       dist: trusty
-       language: cpp
-       compiler: g++
+     - stage: function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit
        os: linux
+       dist: xenial
+       language: cpp
+       env: BUILD_TYPE="Debug"
+       compiler: g++
+       sudo: required
        addons:
          apt:
            sources:
              - ubuntu-toolchain-r-test
            packages:
-             - g++-5
-             - valgrind
+             - g++-6
              - cppcheck
        before_install:
          - pip install --user cpp-coveralls
-       install: export CXX="g++-5"
+       install: export CXX="g++-6"
        script:
          - set -e
 
-         - cmake -Bbuild -H. -DEXAMPLE:BOOL=ON -DUNIT-TESTS:BOOL=ON -DCMAKE_BUILD_TYPE:STRING=RelWithDebInfo -DCOVERAGE:BOOL=ON
+         - cppcheck --enable=all
+                    -I include
+                    --language=c++
+                    --platform=unix64
+                    --std=c++11
+                    --check-config
+                    --suppress=missingIncludeSystem
+                    -v ./tests
 
-         - cppcheck --enable=all -I include -I test-utils/include -I tests/unit/include --language=c++ --platform=unix64 --std=c++11 --check-config --suppress=missingIncludeSystem -v ./example ./tests
+         - cmake -Bbuild -H. -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
 
-         - cmake --build build --target example --config RelWithDebInfo
-
-         - pushd ./build/bin/
-         - valgrind --leak-check=full --error-exitcode=255 -v ./example
+         - cmake -Bbuild/example -Hexample -Dfunction-loader_DIR:PATH=$(pwd)/build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake --build build/example --config $BUILD_TYPE
+         - pushd build/example
+         - ./example
          - popd
 
-         - cmake --build build --target run-all-tests-verbose --config RelWithDebInfo
-         - coveralls -e ./build/gtest-src -e build/demo-library -e ./build/CMakeFiles -e ./tests/unit -e ./example -e cmake-helpers -e demo-library -e test-utils --gcov-options '\-lp'
+         - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake -Bbuild/tests/unit -Htests/unit
+                 -Dfunction-loader_DIR:PATH=$(pwd)/build
+                 -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
+                 -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+                 -DCOVERAGE:BOOL=ON
+         - cmake --build build/tests/unit --target run-all-tests-verbose --config $BUILD_TYPE
+
+         - bash <(curl -s https://codecov.io/bash)
+
+         - set +e
+
+     - stage: function-loader, example, tests -- osx, release with debug info, valgrind, clang++, 64-bit
+       os: osx
+       osx_image: xcode10.1
+       language: cpp
+       env: BUILD_TYPE="RelWithDebInfo"
+       compiler: clang
+       before_install:
+         - brew install valgrind
+       script:
+         - set -e
+
+         - cmake -Bbuild -H. -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+
+         - cmake -Bbuild/example -Hexample -Dfunction-loader_DIR:PATH=$(pwd)/build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake --build build/example --config $BUILD_TYPE
+         # RVM overrides these shell built-ins for Ruby, but we need to use these
+         - unset -f pushd && unset -f popd
+         - pushd build/example
+         - valgrind --error-exitcode=255 -v ./example
+         - popd
+
+         - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake -Bbuild/tests/unit -Htests/unit
+                 -Dfunction-loader_DIR:PATH=$(pwd)/build
+                 -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
+                 -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+                 -DCOVERAGE:BOOL=ON
+         - cmake --build build/tests/unit --target run-all-tests-verbose --config $BUILD_TYPE
+
+         - set +e
+
+     - stage: function-loader, example, tests -- windows, release, msvc, 32-bit
+       os: windows
+       language: cpp
+       env: BUILD_TYPE="Release"
+       script:
+         - set -e
+
+         - cmake -Bbuild -H. -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+
+         - cmake -Bbuild/example -Hexample -Dfunction-loader_DIR:PATH=$(pwd)/build -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake --build build/example --config $BUILD_TYPE
+         - pushd build/example/$BUILD_TYPE
+         - start example.exe
+         - popd
+
+         - cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake -Bbuild/tests/unit -Htests/unit
+                 -Dfunction-loader_DIR:PATH=$(pwd)/build
+                 -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
+                 -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
+         - cmake --build build/tests/unit --target run-all-tests-verbose --config $BUILD_TYPE
 
          - set +e

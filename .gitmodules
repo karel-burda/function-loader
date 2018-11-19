@@ -1,7 +1,9 @@
 [submodule "cmake-helpers"]
-	path = cmake-helpers
+	path = submodules/cmake-helpers
 	url = https://github.com/karel-burda/cmake-helpers
 	branch = master
+	shallow = true
 [submodule "test-utils"]
-	path = test-utils
+	path = submodules/test-utils
 	url = https://github.com/karel-burda/test-utils
+	shallow = true

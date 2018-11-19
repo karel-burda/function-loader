@@ -9,8 +9,8 @@
 #include <test_utils/make_all_members_public.hpp>
 #include <function_loader/exceptions.hpp>
 #include <function_loader/detail/library_loader.hpp>
+#include <test_utils/lifetime_assertions.hpp>
 #include <test_utils/static_class_assertions.hpp>
-#include <test_utils/test_utils.hpp>
 
 #include "helpers.hpp"
 
@@ -74,7 +74,7 @@ TEST(library_loader, resource_deallocation)
     // error is expected, because the handle is freed
 #ifdef _WIN32
     EXPECT_EQ(FreeLibrary(handle), 0);
-#elif __linux__
+#elif defined(__unix__) || defined(__APPLE__)
     EXPECT_NE(dlclose(handle), 0);
 #endif
 }
@@ -96,9 +96,8 @@ TEST(library_loader, exceptions)
     }
 }
 
-TEST(library_loader, get_last_error)
+TEST(library_loader, empty_library)
 {
-    library_loader loader{ testing::get_demo_library_file_path() };
-    EXPECT_TRUE(loader.get_last_error().empty());
+    EXPECT_THROW(library_loader{ "./empty.dll" }, exceptions::library_load_failed);
 }
 }
