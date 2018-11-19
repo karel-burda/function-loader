@@ -100,10 +100,4 @@ TEST(library_loader, empty_library)
 {
     EXPECT_THROW(library_loader{ "./empty.dll" }, exceptions::library_load_failed);
 }
-
-TEST(library_loader, get_last_error)
-{
-    library_loader loader{ "./foo" };
-    EXPECT_FALSE(loader.get_last_error().empty());
-}
 }
