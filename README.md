@@ -176,7 +176,7 @@ This is the example of running tests in the debug mode.
 For more info, see [.travis.yml](.travis.yml).
 
 # Continuous Integration
-Continuous Integration is now being run Linux (with GCC 6.x) and OS X on Travis: https://travis-ci.org/karel-burda/cpp-utils.
+Continuous Integration is now being run Linux, OS X and Windows on Travis: https://travis-ci.org/karel-burda/cpp-utils.
 
 Compilers are set-up to treat warnings as errors and with pedantic warning level.
 Targets are built in one stage with debug symbols with code coverage measure and in release mode with debug symbols in the second one.
@@ -184,7 +184,8 @@ Targets are built in one stage with debug symbols with code coverage measure and
 Valgrind is being run on the example as well.
 
 The project is using these stages:
-* `function-loader, example, tests -- linux, debug, gcc, cppcheck, coverage`
-* `function-loader, example, tests -- osx, release with debug info, valgrind, clang`
+* `function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit`
+* `function-loader, example, tests -- osx, release with debug info, valgrind, clang++, 64-bit`
+* `function-loader, example, tests -- windows, release, msvc, 32-bit`
 
 Project uses [codecov.io](https://codecov.io/gh/karel-burda/function-loader) for code coverage summary.
