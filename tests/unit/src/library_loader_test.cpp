@@ -103,9 +103,7 @@ TEST(library_loader, empty_library)
 
 TEST(library_loader, get_last_error)
 {
-    library_loader loader{ testing::get_demo_library_file_path() };
-    EXPECT_TRUE(loader.get_last_error().empty());
-    // debug only
-    std::cout << loader.get_last_error() << std::endl;
+    library_loader loader{ "./foo" };
+    EXPECT_FALSE(loader.get_last_error().empty());
 }
 }
