@@ -43,16 +43,16 @@ Call `add_subdirectory(...)` directly in your CMakeLists.txt:
 add_executable("my-project" main.cpp)
 
 add_subdirectory(<path-to-function-loader>)
-# Example: add_subdirectory(function-loader ${CMAKE_BINARY_DIR}/function-loader)
+# example: add_subdirectory(function-loader ${CMAKE_BINARY_DIR}/function-loader)
 
-# Query of package version
+# query of package version
 message(STATUS "Current version of function-loader is: ${function-loader_VERSION}")
 
 add_library(burda::function-loader ALIAS function-loader)
 
-# This will import search paths, compile definitions and other dependencies of the function-loader as well
+# this will import search paths, compile definitions and other dependencies of the function-loader as well
 target_link_libraries("my-project" function-loader)
-# Or with private visibility: target_link_libraries("my-project" PRIVATE function-loader)
+# or with private visibility: target_link_libraries("my-project" PRIVATE function-loader)
 
 ```
 
@@ -61,7 +61,7 @@ target_link_libraries("my-project" function-loader)
 Generation phase on the function-loader is run separately, that means that you run:
 ```cmake
 cmake <path-to-function-loader>
-# Example: cmake -Bbuild/function-loader -Hfunction-loader in the root of your project 
+# example: cmake -Bbuild/function-loader -Hfunction-loader in the root of your project 
 ```
 
 This will create automatically generated package configuration file `function-loader-config.cmake` that contains exported target and all important information.
@@ -72,14 +72,14 @@ Then you can do this in your CMakeLists.txt:
 add_executable("my-project" main.cpp)
 
 find_package(function-loader CONFIG PATHS <path-to-binary-dir-of-function-loader>)
-# Alternatively assuming that the "function-loader_DIR" variable is set: find_package(function-loader CONFIG)
+# alternatively assuming that the "function-loader_DIR" variable is set: find_package(function-loader CONFIG)
 
-# You can also query (or force specific version during the previous "find_package()" call)
+# you can also query (or force specific version during the previous "find_package()" call)
 message(STATUS "Found version of function-loader is: ${function-loader_VERSION}")
 
-# This will import search paths, compile definitions and other dependencies of the function-loader as well
+# this will import search paths, compile definitions and other dependencies of the function-loader as well
 target_link_libraries("my-project" burda::function-loader)
-# Or with public visibility: target_link_libraries("my-project" PUBLIC burda::function-loader)
+# or with public visibility: target_link_libraries("my-project" PUBLIC burda::function-loader)
 
 ```
 
@@ -161,13 +161,15 @@ For building tests, run CMake in the source directory [tests/unit](tests/unit):
 
 ```cmake
 cmake -Bbuild -H.
+
 cmake -Bbuild/submodules/test-utils -Hsubmodules/test-utils
-# You can also add coverage by appending "-DCOVERAGE:BOOL=ON"
+# you can also add coverage by appending "-DCOVERAGE:BOOL=ON"
 cmake -Bbuild/tests/unit -Htests/unit
       -Dfunction-loader_DIR:PATH=$(pwd)/build
       -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
 cmake --build build/tests/unit
-# This runs target "run-all-tests-verbose" that will also run the tests with timeout, etc.:
+
+# this runs target "run-all-tests-verbose" that will also run the tests with timeout, etc.:
 cmake --build build/tests/unit --target run-all-tests-verbose
 ```
 
