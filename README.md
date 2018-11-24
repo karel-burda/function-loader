@@ -80,7 +80,6 @@ message(STATUS "Found version of function-loader is: ${function-loader_VERSION}"
 # this will import search paths, compile definitions and other dependencies of the function-loader as well
 target_link_libraries("my-project" burda::function-loader)
 # or with public visibility: target_link_libraries("my-project" PUBLIC burda::function-loader)
-
 ```
 
 ## 2. Manual Way
