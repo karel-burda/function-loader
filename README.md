@@ -4,9 +4,9 @@
 [![Codecov Status](https://codecov.io/gh/karel-burda/function-loader/branch/develop/graph/badge.svg)](https://codecov.io/gh/karel-burda/function-loader/branch/develop)
 
 # Important
-This project contains git sub-modules that are needed for building tests.
+This project contains git sub-modules that are needed for building example and tests.
 
-If you just want to use the implementation, you can clone without sub-modules. In case you want to build the tests, be sure to clone the repository
+If you just want to use the implementation, you can clone without sub-modules. In case you want to build the example or tests, be sure to clone the repository
 with `--recurse-submodules` or `--recursive` on older versions of git. Alternatively, you can clone without sub-modules and initialize these later.
 
 # Introduction
