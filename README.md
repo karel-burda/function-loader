@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-1.2.1-green.svg)
+![Version](https://img.shields.io/badge/version-1.2.2-green.svg)
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/karel-burda/function-loader.svg?branch=develop)](https://travis-ci.org/karel-burda/function-loader)
 [![Codecov Status](https://codecov.io/gh/karel-burda/function-loader/branch/develop/graph/badge.svg)](https://codecov.io/gh/karel-burda/function-loader/branch/develop)
@@ -185,7 +185,7 @@ Targets are built in one stage with debug symbols with code coverage measure and
 
 Valgrind is being run on the example as well.
 
-The project is using these stages:
+The project is using these jobs:
 * `function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit`
 * `function-loader, example, tests -- osx, release with debug info, valgrind, clang++, 64-bit`
 * `function-loader, example, tests -- windows, release, msvc, 32-bit`
