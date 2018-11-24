@@ -53,7 +53,6 @@ add_library(burda::function-loader ALIAS function-loader)
 # this will import search paths, compile definitions and other dependencies of the function-loader as well
 target_link_libraries("my-project" function-loader)
 # or with private visibility: target_link_libraries("my-project" PRIVATE function-loader)
-
 ```
 
 ### B) Generate separately
