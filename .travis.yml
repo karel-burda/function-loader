@@ -1,14 +1,9 @@
-stages:
-  - function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit
-  - function-loader, example, tests -- osx, release with debug info, valgrind, clang++, 64-bit
-  - function-loader, example, tests -- windows, release, msvc, 32-bit
-
 git:
   depth: 1
 
-jobs:
+matrix:
   include:
-     - stage: function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit
+     - name: "function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit"
        os: linux
        dist: xenial
        language: cpp
@@ -57,7 +52,7 @@ jobs:
 
          - set +e
 
-     - stage: function-loader, example, tests -- osx, release with debug info, valgrind, clang++, 64-bit
+     - name: "function-loader, example, tests -- osx, release with debug info, valgrind, clang++, 64-bit"
        os: osx
        osx_image: xcode10.1
        language: cpp
@@ -88,7 +83,7 @@ jobs:
 
          - set +e
 
-     - stage: function-loader, example, tests -- windows, release, msvc, 32-bit
+     - name: "function-loader, example, tests -- windows, release, msvc, 32-bit"
        os: windows
        language: cpp
        env: BUILD_TYPE="Release"

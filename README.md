@@ -1,12 +1,12 @@
-![Version](https://img.shields.io/badge/version-1.2.1-green.svg)
+![Version](https://img.shields.io/badge/version-1.2.2-green.svg)
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/karel-burda/function-loader.svg?branch=develop)](https://travis-ci.org/karel-burda/function-loader)
 [![Codecov Status](https://codecov.io/gh/karel-burda/function-loader/branch/develop/graph/badge.svg)](https://codecov.io/gh/karel-burda/function-loader/branch/develop)
 
 # Important
-This project contains git sub-modules that are needed for building tests.
+This project contains git sub-modules that are needed for building example and tests.
 
-If you just want to use the implementation, you can clone without sub-modules. In case you want to build the tests, be sure to clone the repository
+If you just want to use the implementation, you can clone without sub-modules. In case you want to build the example or tests, be sure to clone the repository
 with `--recurse-submodules` or `--recursive` on older versions of git. Alternatively, you can clone without sub-modules and initialize these later.
 
 # Introduction
@@ -53,7 +53,6 @@ add_library(burda::function-loader ALIAS function-loader)
 # this will import search paths, compile definitions and other dependencies of the function-loader as well
 target_link_libraries("my-project" function-loader)
 # or with private visibility: target_link_libraries("my-project" PRIVATE function-loader)
-
 ```
 
 ### B) Generate separately
@@ -80,7 +79,6 @@ message(STATUS "Found version of function-loader is: ${function-loader_VERSION}"
 # this will import search paths, compile definitions and other dependencies of the function-loader as well
 target_link_libraries("my-project" burda::function-loader)
 # or with public visibility: target_link_libraries("my-project" PUBLIC burda::function-loader)
-
 ```
 
 ## 2. Manual Way
@@ -178,14 +176,14 @@ This is the example of running tests in the debug mode.
 For more info, see [.travis.yml](.travis.yml).
 
 # Continuous Integration
-Continuous Integration is now being run Linux, OS X and Windows on Travis: https://travis-ci.org/karel-burda/cpp-utils.
+Continuous Integration is now being run Linux, OS X and Windows on Travis: https://travis-ci.org/karel-burda/function-loader.
 
 Compilers are set-up to treat warnings as errors and with pedantic warning level.
 Targets are built in one stage with debug symbols with code coverage measure and in release mode with debug symbols in the second one.
 
 Valgrind is being run on the example as well.
 
-The project is using these stages:
+The project is using these jobs:
 * `function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit`
 * `function-loader, example, tests -- osx, release with debug info, valgrind, clang++, 64-bit`
 * `function-loader, example, tests -- windows, release, msvc, 32-bit`

@@ -30,6 +30,10 @@ find_package(function-loader CONFIG REQUIRED)
 message(STATUS "Found version of function-loader is: ${function-loader_VERSION}")
 target_link_libraries(${PROJECT_NAME} PRIVATE burda::function-loader)
 
+target_compile_options(${PROJECT_NAME}
+                           PRIVATE
+                               $<$<CXX_COMPILER_ID:MSVC>:/MP>)
+
 burda_cmake_helpers_cpp_gtest_bootstrap_and_link(${PROJECT_NAME} "release-1.8.1" "Release" PRIVATE)
 
 if (COVERAGE)
