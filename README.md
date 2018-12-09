@@ -40,7 +40,7 @@ There are essentially these ways of how to use this package depending on your pr
 Call `add_subdirectory(...)` directly in your CMakeLists.txt:
 
 ```cmake
-add_executable("my-project" main.cpp)
+add_executable(my-project main.cpp)
 
 add_subdirectory(<path-to-function-loader>)
 # example: add_subdirectory(function-loader ${CMAKE_BINARY_DIR}/function-loader)
@@ -51,8 +51,8 @@ message(STATUS "Current version of function-loader is: ${function-loader_VERSION
 add_library(burda::function-loader ALIAS function-loader)
 
 # this will import search paths, compile definitions and other dependencies of the function-loader as well
-target_link_libraries("my-project" function-loader)
-# or with private visibility: target_link_libraries("my-project" PRIVATE function-loader)
+target_link_libraries(my-project function-loader)
+# or with private visibility: target_link_libraries(my-project PRIVATE function-loader)
 ```
 
 ### B) Generate separately
@@ -68,7 +68,7 @@ This will create automatically generated package configuration file `function-lo
 Then you can do this in your CMakeLists.txt:
 
 ```cmake
-add_executable("my-project" main.cpp)
+add_executable(my-project main.cpp)
 
 find_package(function-loader CONFIG PATHS <path-to-binary-dir-of-function-loader>)
 # alternatively assuming that the "function-loader_DIR" variable is set: find_package(function-loader CONFIG)
@@ -77,8 +77,8 @@ find_package(function-loader CONFIG PATHS <path-to-binary-dir-of-function-loader
 message(STATUS "Found version of function-loader is: ${function-loader_VERSION}")
 
 # this will import search paths, compile definitions and other dependencies of the function-loader as well
-target_link_libraries("my-project" burda::function-loader)
-# or with public visibility: target_link_libraries("my-project" PUBLIC burda::function-loader)
+target_link_libraries(my-project burda::function-loader)
+# or with public visibility: target_link_libraries(my-project PUBLIC burda::function-loader)
 ```
 
 ## 2. Manual Way
@@ -86,7 +86,7 @@ Not recommended.
 
 Make sure that the `include` directory is in the search paths.
 
-You also have to set C++11 standard and potentially other settings as well (e.g. linking `libdl` on POSIXes).
+You also have to set C++ 11 standard and potentially other settings as well (e.g. linking `libdl` on POSIXes).
 
 # Example
 For full use cases, see [main.cpp](example/src/main.cpp) or implementation of unit tests at [tests/unit](tests/unit).
