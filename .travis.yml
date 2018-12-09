@@ -46,7 +46,7 @@ matrix:
                  -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
                  -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
                  -DCOVERAGE:BOOL=ON
-         - cmake --build build/tests/unit --target run-all-tests-verbose --config $BUILD_TYPE
+         - cmake --build build/tests/unit --target run-all-tests-verbose --config $BUILD_TYPE -- -j $(nproc)
 
          - bash <(curl -s https://codecov.io/bash)
 
@@ -79,7 +79,7 @@ matrix:
                  -Dtest-utils_DIR:PATH=$(pwd)/build/submodules/test-utils
                  -DCMAKE_BUILD_TYPE:STRING=$BUILD_TYPE
                  -DCOVERAGE:BOOL=ON
-         - cmake --build build/tests/unit --target run-all-tests-verbose --config $BUILD_TYPE
+         - cmake --build build/tests/unit --target run-all-tests-verbose --config $BUILD_TYPE -- -j $(sysctl -n hw.ncpu)
 
          - set +e
 
