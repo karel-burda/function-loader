@@ -11,7 +11,7 @@ namespace detail
 class function_loader_base
 {
 public:
-    function_loader_base(const std::string & library_path)
+    explicit function_loader_base(const std::string & library_path)
         : library{library_path}
     {
     }
