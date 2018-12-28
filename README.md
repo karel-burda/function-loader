@@ -1,15 +1,15 @@
-![Version](https://img.shields.io/badge/version-1.2.3-green.svg)
+![Version](https://img.shields.io/badge/version-1.2.4-green.svg)
 [![License](https://img.shields.io/badge/license-MIT_License-green.svg?style=flat)](LICENSE)
 [![Build Status](https://travis-ci.org/karel-burda/function-loader.svg?branch=develop)](https://travis-ci.org/karel-burda/function-loader)
 [![Codecov Status](https://codecov.io/gh/karel-burda/function-loader/branch/develop/graph/badge.svg)](https://codecov.io/gh/karel-burda/function-loader/branch/develop)
 
-# Important
+## Important
 This project contains git sub-modules that are needed for building example and tests.
 
 If you just want to use the implementation, you can clone without sub-modules. In case you want to build the example or tests, be sure to clone the repository
 with `--recurse-submodules` or `--recursive` on older versions of git. Alternatively, you can clone without sub-modules and initialize these later.
 
-# Introduction
+## Introduction
 `function_loader` is a header-only library that can find free functions in a shared library and provides `std::function<T>` wrapper around the found function.
 
 Essentially represents a wrapper around the calls `LoadLibrary`, `GetProcedure` and `FreeLibrary` system calls on Windows and `dlopen`, `dlsym` and `dlclose` on POSIXes.
@@ -17,25 +17,25 @@ Essentially represents a wrapper around the calls `LoadLibrary`, `GetProcedure` 
 `function_loader` class supports move semantics and disables copy operations; implementation is in C++11.
 
 These exceptions might be thrown:
-* `library_load_failed`
-* `library_handle_invalid`
-* `function_does_not_exist`
+  * `library_load_failed`
+  * `library_handle_invalid`
+  * `function_does_not_exist`
 
 Exceptions provide additional information about the reason using `what()`,  see [exceptions.hpp](include/function_loader/exceptions.hpp) for more info.
 
-# Usage
+## Usage
 In order to use the `function_loader`, it's the `include` directory that matters. Just make sure that the header search path is pointing to the [include](include) directory located in the root directory.
 
 Implementation resides in the `burda::function_loader` namespace, so it might be useful to do something like `namespace fe = burda::function_loader;` in your project.
 
 There are basically these options when it comes to build system integration:
 
-## 1. CMake Way
+### 1. CMake Way
 Recommended option.
 
 There are essentially these ways of how to use this package depending on your preferences our build architecture:
 
-### A) Generate directly
+#### A) Generate directly
 
 Call `add_subdirectory(...)` directly in your CMakeLists.txt:
 
@@ -55,7 +55,7 @@ target_link_libraries(my-project function-loader)
 # or with private visibility: target_link_libraries(my-project PRIVATE function-loader)
 ```
 
-### B) Generate separately
+#### B) Generate separately
 
 Generation phase on the function-loader is run separately, that means that you run:
 ```cmake
@@ -81,14 +81,14 @@ target_link_libraries(my-project burda::function-loader)
 # or with public visibility: target_link_libraries(my-project PUBLIC burda::function-loader)
 ```
 
-## 2. Manual Way
+### 2. Manual Way
 Not recommended.
 
 Make sure that the `include` directory is in the search paths.
 
 You also have to set C++ 11 standard and potentially other settings as well (e.g. linking `libdl` on POSIXes).
 
-# Example
+## Examples
 For full use cases, see [main.cpp](example/src/main.cpp) or implementation of unit tests at [tests/unit](tests/unit).
 
 ```cpp
@@ -152,7 +152,7 @@ LIBRARY_EXPORT int bar(float number, const char * str);
 }
 ```
 
-# Unit Tests
+## Unit Tests
 Tests require sub-modules [cmake-helpers](https://github.com/karel-burda/cmake-helpers) and [test-utils](https://github.com/karel-burda/test-utils).
 
 For building tests, run CMake in the source directory [tests/unit](tests/unit):
@@ -175,7 +175,7 @@ This is the example of running tests in the debug mode.
 
 For more info, see [.travis.yml](.travis.yml).
 
-# Continuous Integration
+## Continuous Integration
 Continuous Integration is now being run Linux, OS X and Windows on Travis: https://travis-ci.org/karel-burda/function-loader.
 
 Compilers are set-up to treat warnings as errors and with pedantic warning level.
@@ -184,8 +184,8 @@ Targets are built in one stage with debug symbols with code coverage measure and
 Valgrind is being run on the example as well.
 
 The project is using these jobs:
-* `function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit`
-* `function-loader, example, tests -- osx, release with debug info, valgrind, clang++, 64-bit`
-* `function-loader, example, tests -- windows, release, msvc, 32-bit`
+  * `function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit`
+  * `function-loader, example, tests -- osx, release with debug info, valgrind, clang++, 64-bit`
+  * `function-loader, example, tests -- windows, release, msvc, 32-bit`
 
 Project uses [codecov.io](https://codecov.io/gh/karel-burda/function-loader) for code coverage summary.
