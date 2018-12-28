@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 
-project(function-loader VERSION 1.2.3 LANGUAGES CXX)
+project(function-loader VERSION 1.2.4 LANGUAGES CXX)
 
 add_library(${PROJECT_NAME} INTERFACE)
 
