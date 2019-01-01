@@ -16,7 +16,6 @@ target_sources(${PROJECT_NAME}
                        $<$<PLATFORM_ID:Unix>:
                            ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/function_loader_platform_specific_unix.hpp>
 
-                   PRIVATE
                        ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/library_loader.hpp
                        ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/library_loader_base.hpp
                        ${CMAKE_CURRENT_SOURCE_DIR}/include/function_loader/detail/library_loader_platform_specific.hpp
