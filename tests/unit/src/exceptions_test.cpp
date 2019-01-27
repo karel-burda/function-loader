@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <function_loader/exceptions.hpp>
-#include <test_utils/statics/statics.hpp>
+#include <test_utils/statics.hpp>
 
 namespace
 {

@@ -1,9 +1,11 @@
 #include <gtest/gtest.h>
 
+// deliberately in this place ahead of following includes
+#include <test_utils/make_all_members_public.hpp>
+
 #include <function_loader/exceptions.hpp>
 #include <function_loader/function_loader.hpp>
 #include <test_utils/lifetime.hpp>
-#include <test_utils/make_all_members_public.hpp>
 #include <test_utils/statics.hpp>
 
 #include "helpers.hpp"
@@ -18,9 +20,9 @@ using function_loader = burda::function_loader::function_loader;
 
 TEST(function_loader, static_assertions)
 {
-    test_utils::lifetime::assert_default_constructibility<function_loader, false>();
-    test_utils::lifetime::assert_copy_constructibility<function_loader, false>();
-    test_utils::lifetime::assert_move_constructibility<function_loader, true>();
+    test_utils::statics::assert_default_constructibility<function_loader, false>();
+    test_utils::statics::assert_copy_constructibility<function_loader, false>();
+    test_utils::statics::assert_move_constructibility<function_loader, true>();
 }
 
 TEST(function_loader, construction_destruction)
