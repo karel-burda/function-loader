@@ -6,11 +6,11 @@
 
 #include <gtest/gtest.h>
 
-#include <test_utils/make_all_members_public.hpp>
 #include <function_loader/exceptions.hpp>
 #include <function_loader/detail/library_loader.hpp>
-#include <test_utils/lifetime_assertions.hpp>
-#include <test_utils/static_class_assertions.hpp>
+#include <test_utils/lifetime.hpp>
+#include <test_utils/make_all_members_public.hpp>
+#include <test_utils/statics.hpp>
 
 #include "helpers.hpp"
 
@@ -25,14 +25,14 @@ using library_loader = function_loader::detail::library_loader;
 
 TEST(library_loader, static_assertions)
 {
-    test_utils::assert_default_constructibility<library_loader, false>();
-    test_utils::assert_copy_constructibility<library_loader, false>();
-    test_utils::assert_move_constructibility<library_loader, true>();
+    test_utils::statics::assert_default_constructibility<library_loader, false>();
+    test_utils::statics::assert_copy_constructibility<library_loader, false>();
+    test_utils::statics::assert_move_constructibility<library_loader, true>();
 }
 
 TEST(library_loader, construction_destruction)
 {
-    test_utils::assert_construction_and_destruction<library_loader>(testing::get_demo_library_file_path());
+    test_utils::lifetime::assert_construction_and_destruction<library_loader>(testing::get_demo_library_file_path());
     EXPECT_THROW(library_loader{ "foo" }, exceptions::library_load_failed);
     EXPECT_NO_THROW(library_loader{ testing::get_demo_library_file_path() });
     EXPECT_NO_THROW(library_loader{ "./subdirectory/another/demo-library.dll" });

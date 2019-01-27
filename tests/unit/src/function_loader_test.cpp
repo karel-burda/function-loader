@@ -1,10 +1,12 @@
 #include <gtest/gtest.h>
 
-#include <function_loader/exceptions.hpp>
+// deliberately in this place ahead of following includes
 #include <test_utils/make_all_members_public.hpp>
+
+#include <function_loader/exceptions.hpp>
 #include <function_loader/function_loader.hpp>
-#include <test_utils/lifetime_assertions.hpp>
-#include <test_utils/static_class_assertions.hpp>
+#include <test_utils/lifetime.hpp>
+#include <test_utils/statics.hpp>
 
 #include "helpers.hpp"
 
@@ -18,14 +20,14 @@ using function_loader = burda::function_loader::function_loader;
 
 TEST(function_loader, static_assertions)
 {
-    test_utils::assert_default_constructibility<function_loader, false>();
-    test_utils::assert_copy_constructibility<function_loader, false>();
-    test_utils::assert_move_constructibility<function_loader, true>();
+    test_utils::statics::assert_default_constructibility<function_loader, false>();
+    test_utils::statics::assert_copy_constructibility<function_loader, false>();
+    test_utils::statics::assert_move_constructibility<function_loader, true>();
 }
 
 TEST(function_loader, construction_destruction)
 {
-    test_utils::assert_construction_and_destruction<function_loader>(testing::get_demo_library_file_path());
+    test_utils::lifetime::assert_construction_and_destruction<function_loader>(testing::get_demo_library_file_path());
     EXPECT_THROW(function_loader{ "foo" }, exceptions::library_load_failed);
     EXPECT_NO_THROW(function_loader{ "./subdirectory/another/demo-library.dll" });
 }
