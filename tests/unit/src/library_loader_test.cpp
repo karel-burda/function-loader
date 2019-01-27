@@ -25,9 +25,9 @@ using library_loader = function_loader::detail::library_loader;
 
 TEST(library_loader, static_assertions)
 {
-    test_utils::lifetime::assert_default_constructibility<library_loader, false>();
-    test_utils::lifetime::assert_copy_constructibility<library_loader, false>();
-    test_utils::lifetime::assert_move_constructibility<library_loader, true>();
+    test_utils::statics::assert_default_constructibility<library_loader, false>();
+    test_utils::statics::assert_copy_constructibility<library_loader, false>();
+    test_utils::statics::assert_move_constructibility<library_loader, true>();
 }
 
 TEST(library_loader, construction_destruction)
