@@ -1,7 +1,7 @@
 ![Version](https://img.shields.io/badge/version-1.2.5-blue.svg)
 [![License](https://img.shields.io/badge/license-MIT_License-blue.svg?style=flat)](LICENSE)
-[![Build Status](https://travis-ci.org/karel-burda/function-loader.svg?branch=develop)](https://travis-ci.org/karel-burda/function-loader)
-[![Codecov Status](https://codecov.io/gh/karel-burda/function-loader/branch/develop/graph/badge.svg)](https://codecov.io/gh/karel-burda/function-loader/branch/develop)
+[![Build Status](https://travis-ci.org/karel-burda/function-loader.svg?branch=master)](https://travis-ci.org/karel-burda/function-loader)
+[![Codecov Status](https://codecov.io/gh/karel-burda/function-loader/branch/develop/graph/badge.svg)](https://codecov.io/gh/karel-burda/function-loader/branch/master)
 
 ## Important
 This project contains git sub-modules that are needed for building example and tests.
