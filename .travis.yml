@@ -5,7 +5,7 @@ matrix:
   include:
      - name: "function-loader, example, tests -- linux, debug, cppcheck, coverage, g++, 64-bit"
        os: linux
-       dist: xenial
+       dist: focal
        language: cpp
        env: BUILD_TYPE="Debug"
        compiler: g++
@@ -13,13 +13,13 @@ matrix:
        addons:
          apt:
            sources:
-             - ubuntu-toolchain-r-test
+             - ubuntu-toolchain-r/test
            packages:
-             - g++-6
+             - g++-10
              - cppcheck
        before_install:
          - pip install --user cpp-coveralls
-       install: export CXX="g++-6"
+       install: export CXX="g++-10"
        script:
          - set -e
 
